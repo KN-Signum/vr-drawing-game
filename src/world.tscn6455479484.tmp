@@ -1,0 +1,499 @@
+[gd_scene load_steps=53 format=3 uid="uid://b5sx88mxiip42"]
+
+[ext_resource type="Script" uid="uid://7mx520pokpko" path="res://src/world.gd" id="1_xlegt"]
+[ext_resource type="PackedScene" uid="uid://cmj162jgobre4" path="res://src/player.tscn" id="2_0qwtu"]
+[ext_resource type="Terrain3DMaterial" uid="uid://dkw8jdypa1qd5" path="res://terrain_data/new_terrain_3d_material.tres" id="2_t101k"]
+[ext_resource type="Terrain3DAssets" uid="uid://ujjqbgnm67vk" path="res://terrain_data/new_terrain_3d_assets.tres" id="3_36ipd"]
+[ext_resource type="Script" uid="uid://b8856ymatuq1a" path="res://addons/proton_scatter/src/scatter.gd" id="4_5xesp"]
+[ext_resource type="Script" uid="uid://sxojibbh3d4q" path="res://addons/proton_scatter/src/stack/modifier_stack.gd" id="5_a3wil"]
+[ext_resource type="Script" uid="uid://bs1qt12sx0oln" path="res://addons/proton_scatter/src/modifiers/base_modifier.gd" id="6_8kjpi"]
+[ext_resource type="Script" uid="uid://bkg2dljypk2ok" path="res://addons/proton_scatter/src/modifiers/create_inside_random.gd" id="7_yyjdi"]
+[ext_resource type="Script" uid="uid://byv2pg446osrd" path="res://addons/proton_scatter/src/modifiers/randomize_transforms.gd" id="8_vmuob"]
+[ext_resource type="Script" uid="uid://bnvwjoqhcowh4" path="res://addons/proton_scatter/src/modifiers/relax.gd" id="9_00gdp"]
+[ext_resource type="Script" uid="uid://ybkjhdbk3qxf" path="res://addons/proton_scatter/src/modifiers/project_on_geometry.gd" id="10_th6lv"]
+[ext_resource type="Script" uid="uid://ch8f78yymmikl" path="res://addons/proton_scatter/src/scatter_item.gd" id="11_wgoqa"]
+[ext_resource type="Script" uid="uid://cvse73mkqgj4u" path="res://addons/proton_scatter/src/scatter_shape.gd" id="12_pk3eh"]
+[ext_resource type="Script" uid="uid://d4h6jsk5o8jng" path="res://addons/proton_scatter/src/shapes/sphere_shape.gd" id="13_tvnmn"]
+[ext_resource type="Script" uid="uid://cxfal70hasx18" path="res://addons/proton_scatter/src/shapes/path_shape.gd" id="14_a3wil"]
+[ext_resource type="Texture2D" uid="uid://b8feyhmd6rm2n" path="res://noise_water.tres" id="16_8kjpi"]
+[ext_resource type="Script" uid="uid://djkia3xav32ep" path="res://src/EaselDraw.gd" id="17_vmuob"]
+[ext_resource type="PackedScene" uid="uid://ci0gw41etfb18" path="res://objects/brush.tscn" id="18_00gdp"]
+[ext_resource type="Script" uid="uid://cv61rkacs0sv6" path="res://src/CanvasPainter.gd" id="18_th6lv"]
+
+[sub_resource type="Resource" id="Resource_vmuob"]
+script = ExtResource("7_yyjdi")
+amount = 2004
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 1
+
+[sub_resource type="Resource" id="Resource_wgoqa"]
+script = ExtResource("8_vmuob")
+position = Vector3(0.15, 0.15, 0.15)
+rotation = Vector3(20, 360, 20)
+scale = Vector3(0.1, 0.1, 0.1)
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 2
+
+[sub_resource type="Resource" id="Resource_pk3eh"]
+script = ExtResource("9_00gdp")
+iterations = 3
+offset_step = 0.2
+consecutive_step_multiplier = 0.75
+use_computeshader = true
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_tvnmn"]
+script = ExtResource("10_th6lv")
+ray_direction = Vector3(0, -1, 0)
+ray_length = 5.0
+ray_offset = 5.0
+remove_points_on_miss = false
+align_with_collision_normal = false
+max_slope = 90.0
+collision_mask = 1
+exclude_mask = 0
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_c3rv8"]
+script = ExtResource("5_a3wil")
+stack = Array[ExtResource("6_8kjpi")]([SubResource("Resource_vmuob"), SubResource("Resource_wgoqa"), SubResource("Resource_pk3eh"), SubResource("Resource_tvnmn")])
+
+[sub_resource type="Resource" id="Resource_g8bsm"]
+script = ExtResource("13_tvnmn")
+radius = 14.8975
+
+[sub_resource type="Curve3D" id="Curve3D_8kjpi"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -2.82862, 0, 1.67911, 0, 0, 0, 0, 0, 0, -2.30819, -4.76837e-07, 3.10076, 0, 0, 0, 0, 0, 0, -0.864217, 0, 3.67404, 0, 0, 0, 0, 0, 0, 0.994246, 0, 3.34584, 0, 0, 0, 0, 0, 0, 2.13727, 0, 2.40301, 0, 0, 0, 0, 0, 0, 2.68365, 0, 0.86242, 0, 0, 0, 0, 0, 0, 2.60489, 0, -1.29969, 0, 0, 0, 0, 0, 0, 1.16021, 0, -2.08091, 0, 0, 0, 0, 0, 0, -0.779909, -4.76837e-07, -2.30936, 0, 0, 0, 0, 0, 0, -2.11093, 4.76837e-07, -1.4669, 0, 0, 0, 0, 0, 0, -3.18679, 0, -0.272238, 0, 0, 0, 0, 0, 0, -2.82875, 0, 1.70029),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 12
+
+[sub_resource type="Resource" id="Resource_th6lv"]
+script = ExtResource("14_a3wil")
+closed = true
+thickness = 0.0
+curve = SubResource("Curve3D_8kjpi")
+metadata/_custom_type_script = "uid://cxfal70hasx18"
+
+[sub_resource type="Resource" id="Resource_m5hut"]
+script = ExtResource("7_yyjdi")
+amount = 75
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 1
+
+[sub_resource type="Resource" id="Resource_7igba"]
+script = ExtResource("8_vmuob")
+position = Vector3(0.189, 0.15, 0.09)
+rotation = Vector3(20, 360, 20)
+scale = Vector3(0.1, 0.1, 0.1)
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 2
+
+[sub_resource type="Resource" id="Resource_cgjhx"]
+script = ExtResource("9_00gdp")
+iterations = 3
+offset_step = 0.2
+consecutive_step_multiplier = 0.75
+use_computeshader = true
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_ngmlu"]
+script = ExtResource("10_th6lv")
+ray_direction = Vector3(0, -1, 0)
+ray_length = 5.0
+ray_offset = 5.0
+remove_points_on_miss = false
+align_with_collision_normal = false
+max_slope = 90.0
+collision_mask = 1
+exclude_mask = 0
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_esudu"]
+script = ExtResource("5_a3wil")
+stack = Array[ExtResource("6_8kjpi")]([SubResource("Resource_m5hut"), SubResource("Resource_7igba"), SubResource("Resource_cgjhx"), SubResource("Resource_ngmlu")])
+
+[sub_resource type="Resource" id="Resource_00gdp"]
+script = ExtResource("13_tvnmn")
+radius = 14.9388
+
+[sub_resource type="Resource" id="Resource_2imy6"]
+script = ExtResource("7_yyjdi")
+amount = 1000
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 1
+
+[sub_resource type="Resource" id="Resource_61w3o"]
+script = ExtResource("8_vmuob")
+position = Vector3(0.15, 0.15, 0.15)
+rotation = Vector3(20, 360, 20)
+scale = Vector3(0.1, 0.1, 0.1)
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 2
+
+[sub_resource type="Resource" id="Resource_mlvry"]
+script = ExtResource("9_00gdp")
+iterations = 3
+offset_step = 0.2
+consecutive_step_multiplier = 0.75
+use_computeshader = true
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_kqsvi"]
+script = ExtResource("10_th6lv")
+ray_direction = Vector3(0, -1, 0)
+ray_length = 5.0
+ray_offset = 5.0
+remove_points_on_miss = false
+align_with_collision_normal = false
+max_slope = 90.0
+collision_mask = 1
+exclude_mask = 0
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_xtube"]
+script = ExtResource("5_a3wil")
+stack = Array[ExtResource("6_8kjpi")]([SubResource("Resource_2imy6"), SubResource("Resource_61w3o"), SubResource("Resource_mlvry"), SubResource("Resource_kqsvi")])
+
+[sub_resource type="Resource" id="Resource_0mdou"]
+script = ExtResource("13_tvnmn")
+radius = 127.362
+
+[sub_resource type="Shader" id="Shader_yyjdi"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.4.1.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix, depth_draw_always, cull_back, diffuse_burley, specular_schlick_ggx;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
+uniform ivec2 albedo_texture_size;
+uniform float point_size : hint_range(0.1, 128.0, 0.1);
+
+uniform float roughness : hint_range(0.0, 1.0);
+uniform sampler2D texture_metallic : hint_default_white, filter_linear_mipmap, repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r, filter_linear_mipmap, repeat_enable;
+
+uniform float specular : hint_range(0.0, 1.0, 0.01);
+uniform float metallic : hint_range(0.0, 1.0, 0.01);
+
+uniform sampler2D texture_refraction : filter_linear_mipmap, repeat_enable;
+uniform float refraction : hint_range(-1.0, 1.0, 0.001);
+uniform vec4 refraction_texture_channel;
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_linear_mipmap;
+uniform sampler2D depth_texture : hint_depth_texture, repeat_disable, filter_nearest;
+
+uniform sampler2D texture_normal : hint_roughness_normal, filter_linear_mipmap, repeat_enable;
+uniform float normal_scale : hint_range(-16.0, 16.0);
+varying vec3 uv1_triplanar_pos;
+
+uniform float uv1_blend_sharpness : hint_range(0.0, 150.0, 0.001);
+varying vec3 uv1_power_normal;
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+void vertex() {
+	vec3 normal = MODEL_NORMAL_MATRIX * NORMAL;
+
+	TANGENT = vec3(0.0, 0.0, -1.0) * abs(normal.x);
+	TANGENT += vec3(1.0, 0.0, 0.0) * abs(normal.y);
+	TANGENT += vec3(1.0, 0.0, 0.0) * abs(normal.z);
+	TANGENT = inverse(MODEL_NORMAL_MATRIX) * normalize(TANGENT);
+
+	BINORMAL = vec3(0.0, 1.0, 0.0) * abs(normal.x);
+	BINORMAL += vec3(0.0, 0.0, -1.0) * abs(normal.y);
+	BINORMAL += vec3(0.0, 1.0, 0.0) * abs(normal.z);
+	BINORMAL = inverse(MODEL_NORMAL_MATRIX) * normalize(BINORMAL);
+
+	// UV1 Triplanar: Enabled (with World Triplanar)
+	uv1_power_normal = pow(abs(normal), vec3(uv1_blend_sharpness));
+	uv1_triplanar_pos = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz * uv1_scale + uv1_offset + TIME * 0.03;
+	uv1_power_normal /= dot(uv1_power_normal, vec3(1.0));
+	uv1_triplanar_pos *= vec3(1.0, -1.0, 1.0);
+}
+
+vec4 triplanar_texture(sampler2D p_sampler, vec3 p_weights, vec3 p_triplanar_pos) {
+	vec4 samp = vec4(0.0);
+	samp += texture(p_sampler, p_triplanar_pos.xy) * p_weights.z;
+	samp += texture(p_sampler, p_triplanar_pos.xz) * p_weights.y;
+	samp += texture(p_sampler, p_triplanar_pos.zy * vec2(-1.0, 1.0)) * p_weights.x;
+	return samp;
+}
+
+void fragment() {
+	vec4 albedo_tex = triplanar_texture(texture_albedo, uv1_power_normal, uv1_triplanar_pos);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+
+	float metallic_tex = dot(triplanar_texture(texture_metallic, uv1_power_normal, uv1_triplanar_pos), metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	SPECULAR = specular;
+
+	vec4 roughness_texture_channel = vec4(1.0, 0.0, 0.0, 0.0);
+	float roughness_tex = dot(triplanar_texture(texture_roughness, uv1_power_normal, uv1_triplanar_pos), roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+
+	// Normal Map: Enabled
+	NORMAL_MAP = triplanar_texture(texture_normal, uv1_power_normal, uv1_triplanar_pos).rgb;
+	NORMAL_MAP_DEPTH = normal_scale;
+
+	// Refraction: Enabled (with normal map texture)
+	vec3 unpacked_normal = NORMAL_MAP;
+	unpacked_normal.xy = unpacked_normal.xy * 2.0 - 1.0;
+	unpacked_normal.z = sqrt(max(0.0, 1.0 - dot(unpacked_normal.xy, unpacked_normal.xy)));
+	vec3 ref_normal = normalize(mix(
+			NORMAL,
+			TANGENT * unpacked_normal.x + BINORMAL * unpacked_normal.y + NORMAL * unpacked_normal.z,
+			NORMAL_MAP_DEPTH));
+	vec2 ref_ofs = SCREEN_UV - ref_normal.xy * dot(triplanar_texture(texture_refraction, uv1_power_normal, uv1_triplanar_pos), refraction_texture_channel) * refraction;
+
+	float ref_amount = 1.0 - albedo.a * albedo_tex.a;
+
+	float refraction_depth_tex = textureLod(depth_texture, ref_ofs, 0.0).r;
+	vec4 refraction_view_pos = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, refraction_depth_tex, 1.0);
+	refraction_view_pos.xyz /= refraction_view_pos.w;
+
+	// If the depth buffer is lower then the model's Z position, use the refracted UV, otherwise use the normal screen UV.
+	// At low depth differences, decrease refraction intensity to avoid sudden discontinuities.
+	EMISSION += textureLod(screen_texture, mix(SCREEN_UV, ref_ofs, smoothstep(0.0, 1.0, VERTEX.z - refraction_view_pos.z)), ROUGHNESS * 8.0).rgb * ref_amount * EXPOSURE;
+	ALBEDO *= 1.0 - ref_amount;
+	// Force transparency on the material (required for refraction).
+	ALPHA = 1.0;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vmuob"]
+render_priority = 0
+shader = SubResource("Shader_yyjdi")
+shader_parameter/albedo = Color(0.368627, 0.572549, 1, 0.678431)
+shader_parameter/texture_albedo = ExtResource("16_8kjpi")
+shader_parameter/albedo_texture_size = Vector2i(512, 512)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 0.0
+shader_parameter/metallic_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/refraction = 0.05
+shader_parameter/refraction_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/texture_normal = ExtResource("16_8kjpi")
+shader_parameter/normal_scale = 1.0
+shader_parameter/uv1_blend_sharpness = 1.0
+shader_parameter/uv1_scale = Vector3(0.04, 0.04, 0.04)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_00gdp"]
+material = SubResource("ShaderMaterial_vmuob")
+size = Vector3(50, 10, 40)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kqsvi"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_xtube"]
+resource_local_to_scene = true
+material = SubResource("ShaderMaterial_kqsvi")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_5735e"]
+viewport_path = NodePath("CanvasViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_whabk"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_5735e")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xtube"]
+size = Vector3(2, 1, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yyjdi"]
+albedo_color = Color(0.14348, 0.0442606, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yyjdi"]
+material = SubResource("StandardMaterial3D_yyjdi")
+
+[sub_resource type="Skin" id="Skin_xtube"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yyjdi"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vmuob"]
+size = Vector3(1, 1.41101, 1)
+
+[node name="world" type="Node3D"]
+script = ExtResource("1_xlegt")
+
+[node name="Terrain3D" type="Terrain3D" parent="."]
+data_directory = "res://terrain_data"
+material = ExtResource("2_t101k")
+assets = ExtResource("3_36ipd")
+top_level = true
+metadata/_edit_lock_ = true
+
+[node name="GrassScatter" type="Node3D" parent="Terrain3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.75408)
+script = ExtResource("4_5xesp")
+modifier_stack = SubResource("Resource_c3rv8")
+Performance/use_chunks = true
+Performance/chunk_dimensions = Vector3(15, 15, 15)
+metadata/_custom_type_script = "uid://b8856ymatuq1a"
+
+[node name="ScatterItem" type="Node3D" parent="Terrain3D/GrassScatter"]
+script = ExtResource("11_wgoqa")
+proportion = 20
+source_scale_multiplier = 0.3
+path = "uid://dwyofe5b5tckm"
+
+[node name="ScatterShape" type="Node3D" parent="Terrain3D/GrassScatter"]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0.152991, 0, 5.10598)
+script = ExtResource("12_pk3eh")
+shape = SubResource("Resource_g8bsm")
+
+[node name="ScatterShape2" type="Node3D" parent="Terrain3D/GrassScatter"]
+script = ExtResource("12_pk3eh")
+negative = true
+shape = SubResource("Resource_th6lv")
+metadata/_custom_type_script = "uid://cvse73mkqgj4u"
+
+[node name="FlowerScatter" type="Node3D" parent="Terrain3D"]
+script = ExtResource("4_5xesp")
+modifier_stack = SubResource("Resource_esudu")
+Performance/use_chunks = true
+Performance/chunk_dimensions = Vector3(15, 15, 15)
+metadata/_custom_type_script = "uid://b8856ymatuq1a"
+
+[node name="ScatterItem" type="Node3D" parent="Terrain3D/FlowerScatter"]
+script = ExtResource("11_wgoqa")
+source_scale_multiplier = 0.15
+path = "uid://bsod5beub45h6"
+
+[node name="ScatterShape" type="Node3D" parent="Terrain3D/FlowerScatter"]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 3.42313)
+script = ExtResource("12_pk3eh")
+shape = SubResource("Resource_00gdp")
+
+[node name="ScatterItem2" type="Node3D" parent="Terrain3D/FlowerScatter"]
+script = ExtResource("11_wgoqa")
+source_scale_multiplier = 0.15
+path = "uid://ti4o85d1pa8h"
+metadata/_custom_type_script = "uid://ch8f78yymmikl"
+
+[node name="TreeScatter1" type="Node3D" parent="Terrain3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.7909, 0, 26.2597)
+script = ExtResource("4_5xesp")
+modifier_stack = SubResource("Resource_xtube")
+Performance/use_chunks = true
+Performance/chunk_dimensions = Vector3(15, 15, 15)
+metadata/_custom_type_script = "uid://b8856ymatuq1a"
+
+[node name="ScatterItem" type="Node3D" parent="Terrain3D/TreeScatter1"]
+script = ExtResource("11_wgoqa")
+path = "uid://dmhg61rpmpqbi"
+
+[node name="ScatterShape" type="Node3D" parent="Terrain3D/TreeScatter1"]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, -25.9226, 0, 110.601)
+script = ExtResource("12_pk3eh")
+shape = SubResource("Resource_0mdou")
+
+[node name="ScatterItem2" type="Node3D" parent="Terrain3D/TreeScatter1"]
+script = ExtResource("11_wgoqa")
+path = "uid://4yewauc2yt6x"
+metadata/_custom_type_script = "uid://ch8f78yymmikl"
+
+[node name="player" parent="." instance=ExtResource("2_0qwtu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25854, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.0719326, 0.99741, 0, -0.99741, -0.0719326, -24.833, 140.092, 15.0659)
+
+[node name="water" type="MeshInstance3D" parent="."]
+transform = Transform3D(19.8312, 0, 0, 0, 0.0401873, 0, 0, 0, 47.969, 22.0714, -2.61915, -186.815)
+mesh = SubResource("BoxMesh_00gdp")
+
+[node name="easel" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.516456, 0.348737, 0.104473, 0, 0.181331, -0.605291, -0.364049, 0.494732, 0.14821, -0.598916, 1.49896, -1.02878)
+mesh = SubResource("PlaneMesh_xtube")
+surface_material_override/0 = SubResource("StandardMaterial3D_whabk")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="easel" groups=["canvas"]]
+script = ExtResource("17_vmuob")
+painter_path = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="easel/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0.0684421, 0, 0)
+shape = SubResource("BoxShape3D_xtube")
+
+[node name="CanvasViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(1024, 1024)
+render_target_update_mode = 4
+
+[node name="Background" type="ColorRect" parent="CanvasViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Painter2D" type="Node2D" parent="CanvasViewport"]
+script = ExtResource("18_th6lv")
+
+[node name="Table" type="MeshInstance3D" parent="."]
+physics_interpolation_mode = 1
+transform = Transform3D(1.6957, 0, 0, 0, 2.32667, 0, 0, 0, 1.90448, 1.11028, 0.07137, -0.415593)
+mesh = SubResource("BoxMesh_yyjdi")
+skin = SubResource("Skin_xtube")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Table"]
+physics_material_override = SubResource("PhysicsMaterial_yyjdi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Table/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00319093, -0.197613, 0)
+shape = SubResource("BoxShape3D_vmuob")
+
+[node name="Cube" parent="Table" instance=ExtResource("18_00gdp")]
+transform = Transform3D(-0.0229453, -0.61136, -0.79102, 0.99861, -0.0515656, 0.010887, -0.0474453, -0.789671, 0.611694, -0.308522, 0.558738, -0.0854849)
