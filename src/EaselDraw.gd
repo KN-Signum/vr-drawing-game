@@ -52,8 +52,9 @@ func draw_at_world_pos(world_pos: Vector3, is_first_contact: bool):
 	# 3. Convert 3D to 2D normalized coordinate (0-1)
 	# Map from local X [-1, 1] to normalized [0, 1]
 	var normalized_x = (local_pos.x + 1.0) / 2.0
-	# Map from local Z [1, -1] to normalized [0, 1] (Z is the vertical axis on the rotated easel)
-	var normalized_y = (1.0 - local_pos.z) / 2.0
+	# Map from local Z [-1, 1] to normalized [0, 1] (Z is the vertical axis on the rotated easel)
+	# Note: Z increases upward, so we add 1.0 (not subtract from 1.0)
+	var normalized_y = (local_pos.z + 1.0) / 2.0
 	
 	# 4. Clamp normalized coordinates to valid range (0-1)
 	normalized_x = clamp(normalized_x, 0.0, 1.0)
