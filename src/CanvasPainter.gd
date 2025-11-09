@@ -2,6 +2,7 @@
 extends Node2D
 
 var draw_points: Array = []
+var draw_colors: Array = []  # Store color for each point
 var draw_color: Color = Color.BLACK
 var draw_width: float = 8.0
 
@@ -10,10 +11,11 @@ var draw_width: float = 8.0
 @export var show_canvas_bounds: bool = false
 
 # Function called by the Easel to add new points
-func add_draw_point(point: Vector2, is_new_stroke: bool):
+func add_draw_point(point: Vector2, is_new_stroke: bool, color: Color = Color.BLACK):
 	if is_new_stroke:
 		# Separate the strokes by adding a null entry
-		draw_points.append(null) 
+		draw_points.append(null)
+		draw_colors.append(null)
 	
 	# Debug: Print where we're drawing on the 2D canvas
 	if enable_debug and point != Vector2.ZERO:
@@ -27,6 +29,7 @@ func add_draw_point(point: Vector2, is_new_stroke: bool):
 		print("----------------------")
 	
 	draw_points.append(point)
+	draw_colors.append(color)
 	
 	# Request a redraw to update the texture. Node2D inherits CanvasItem.
 	queue_redraw() # <- Error Fixed
@@ -53,8 +56,12 @@ func _draw():
 	
 	# This function is the ONLY place Godot allows drawing.
 	var last_point: Vector2 = Vector2.INF
+	var last_color: Color = draw_color
 	
-	for point in draw_points:
+	for i in range(draw_points.size()):
+		var point = draw_points[i]
+		var color = draw_colors[i] if i < draw_colors.size() and draw_colors[i] != null else draw_color
+		
 		if point == null:
 			# Start of a new stroke
 			last_point = Vector2.INF
@@ -63,10 +70,12 @@ func _draw():
 		if last_point == Vector2.INF:
 			# Initialize the stroke
 			last_point = point
+			last_color = color
 			# Draw a circle at the start of each stroke for debugging
 			if enable_debug:
 				draw_circle(point, 3.0, Color.BLUE)
 		else:
 			# draw_line is available on Node2D.
-			draw_line(last_point, point, draw_color, draw_width) # <- Error Fixed
+			draw_line(last_point, point, last_color, draw_width)
 			last_point = point
+			last_color = color

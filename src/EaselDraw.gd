@@ -36,7 +36,7 @@ func _ready():
 		push_error("Error: Painter2D not found at path: " + str(painter_path))
 
 # Function called by the brush on contact
-func draw_at_world_pos(world_pos: Vector3, is_first_contact: bool):
+func draw_at_world_pos(world_pos: Vector3, is_first_contact: bool, color: Color = Color.BLACK):
 	if not painter_2d:
 		return 
 
@@ -85,7 +85,7 @@ func draw_at_world_pos(world_pos: Vector3, is_first_contact: bool):
 		create_debug_sphere(world_pos)
 	
 	# 4. Send the point to the painter script for drawing
-	painter_2d.add_draw_point(current_draw_pos, is_first_contact)
+	painter_2d.add_draw_point(current_draw_pos, is_first_contact, color)
 	
 func stop_drawing():
 	# Send a new stroke instruction to the painter to lift the brush

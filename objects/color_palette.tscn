@@ -1,0 +1,100 @@
+[gd_scene load_steps=12 format=3 uid="uid://dpn0xl8k5q8pd"]
+
+[ext_resource type="Script" path="res://objects/ColorPalette.gd" id="1_palette"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_base"]
+albedo_color = Color(0.8, 0.75, 0.7, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_base"]
+material = SubResource("StandardMaterial3D_base")
+size = Vector3(0.3, 0.02, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_red"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_blue"]
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_green"]
+albedo_color = Color(0, 0.8, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yellow"]
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_black"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_white"]
+albedo_color = Color(1, 1, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_swatch"]
+size = Vector3(0.08, 0.01, 0.08)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_swatch"]
+size = Vector3(0.08, 0.02, 0.08)
+
+[node name="ColorPalette" type="Node3D"]
+script = ExtResource("1_palette")
+
+[node name="Base" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_base")
+
+[node name="RedSwatch" type="StaticBody3D" parent="." groups=["color_swatch"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.015, -0.05)
+
+[node name="Mesh" type="MeshInstance3D" parent="RedSwatch"]
+mesh = SubResource("BoxMesh_swatch")
+surface_material_override/0 = SubResource("StandardMaterial3D_red")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RedSwatch"]
+shape = SubResource("BoxShape3D_swatch")
+
+[node name="BlueSwatch" type="StaticBody3D" parent="." groups=["color_swatch"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, -0.05)
+
+[node name="Mesh" type="MeshInstance3D" parent="BlueSwatch"]
+mesh = SubResource("BoxMesh_swatch")
+surface_material_override/0 = SubResource("StandardMaterial3D_blue")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BlueSwatch"]
+shape = SubResource("BoxShape3D_swatch")
+
+[node name="GreenSwatch" type="StaticBody3D" parent="." groups=["color_swatch"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.015, -0.05)
+
+[node name="Mesh" type="MeshInstance3D" parent="GreenSwatch"]
+mesh = SubResource("BoxMesh_swatch")
+surface_material_override/0 = SubResource("StandardMaterial3D_green")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GreenSwatch"]
+shape = SubResource("BoxShape3D_swatch")
+
+[node name="YellowSwatch" type="StaticBody3D" parent="." groups=["color_swatch"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.015, 0.05)
+
+[node name="Mesh" type="MeshInstance3D" parent="YellowSwatch"]
+mesh = SubResource("BoxMesh_swatch")
+surface_material_override/0 = SubResource("StandardMaterial3D_yellow")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="YellowSwatch"]
+shape = SubResource("BoxShape3D_swatch")
+
+[node name="BlackSwatch" type="StaticBody3D" parent="." groups=["color_swatch"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, 0.05)
+
+[node name="Mesh" type="MeshInstance3D" parent="BlackSwatch"]
+mesh = SubResource("BoxMesh_swatch")
+surface_material_override/0 = SubResource("StandardMaterial3D_black")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BlackSwatch"]
+shape = SubResource("BoxShape3D_swatch")
+
+[node name="WhiteSwatch" type="StaticBody3D" parent="." groups=["color_swatch"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.015, 0.05)
+
+[node name="Mesh" type="MeshInstance3D" parent="WhiteSwatch"]
+mesh = SubResource("BoxMesh_swatch")
+surface_material_override/0 = SubResource("StandardMaterial3D_white")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WhiteSwatch"]
+shape = SubResource("BoxShape3D_swatch")

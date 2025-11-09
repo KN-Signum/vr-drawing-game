@@ -3,6 +3,7 @@ extends Node3D
 
 @export var raycast_path: NodePath = "DrawRay"
 @export var visual_ray_path: NodePath = "VisualRay"
+@export var bristles_path: NodePath = "Bristles"
 @export var ray_color_normal: Color = Color.CYAN
 @export var ray_color_hitting: Color = Color.GREEN
 @export var ray_color_drawing: Color = Color.RED
@@ -12,8 +13,10 @@ extends Node3D
 
 var draw_ray: RayCast3D
 var visual_ray: MeshInstance3D
+var bristles: MeshInstance3D
 var current_canvas: StaticBody3D = null 
-var is_drawing: bool = false 
+var is_drawing: bool = false
+var current_color: Color = Color.BLACK 
 
 func _ready():
 	draw_ray = get_node(raycast_path) as RayCast3D
@@ -23,6 +26,10 @@ func _ready():
 	visual_ray = get_node(visual_ray_path) as MeshInstance3D
 	if visual_ray:
 		visual_ray.visible = false  # Hide the visual ray indicator
+	
+	bristles = get_node(bristles_path) as MeshInstance3D
+	if not bristles:
+		push_error("Bristles MeshInstance3D not found at path: " + str(bristles_path))
 
 func _physics_process(delta):
 	# update_visual_ray()  # Disabled - no visual ray needed
@@ -40,6 +47,18 @@ func _physics_process(delta):
 				print("Collider groups: ", collider.get_groups())
 			print("===================")
 		
+		# Check if hitting a color swatch
+		if collider is StaticBody3D and collider.is_in_group("color_swatch"):
+			print("*** HIT COLOR SWATCH: ", collider.name)
+			var palette = collider.get_parent()
+			if palette and palette.has_method("get_color_from_body"):
+				var new_color = palette.get_color_from_body(collider)
+				print("*** CHANGING COLOR TO: ", new_color)
+				change_brush_color(new_color)
+			else:
+				print("*** PALETTE NOT FOUND OR NO METHOD")
+			return  # Don't draw on palette
+		
 		if collider is StaticBody3D and collider.is_in_group("canvas"):
 			var canvas_body = collider as StaticBody3D
 			var is_new_stroke = false
@@ -51,9 +70,9 @@ func _physics_process(delta):
 				if enable_debug:
 					print("*** STARTING NEW STROKE ON VALID CANVAS ***")
 
-			# 🛑 CRITICAL FIX: Use .call() and pass TWO arguments
+			# Pass collision point, new stroke flag, and current color to canvas
 			if current_canvas.has_method("draw_at_world_pos"):
-				current_canvas.call("draw_at_world_pos", collision_point, is_new_stroke)
+				current_canvas.call("draw_at_world_pos", collision_point, is_new_stroke, current_color)
 			else:
 				push_error("EaselDraw.gd is not attached or failed to load.")
 
@@ -132,3 +151,27 @@ func update_visual_ray():
 	# Update ray scale - keep the visual ray at its original position (0.07 from bristle tip)
 	# The cylinder extends in +Y direction from the bristle tip
 	visual_ray.scale.y = ray_length
+
+func change_brush_color(new_color: Color):
+	current_color = new_color
+	print("*** CHANGE_BRUSH_COLOR CALLED with: ", new_color)
+	
+	# Change bristle color
+	if bristles:
+		print("*** Bristles found: ", bristles)
+		var material = bristles.get_active_material(0) as StandardMaterial3D
+		print("*** Current material: ", material)
+		if material:
+			# Create a new material instance to avoid modifying the shared resource
+			var new_material = material.duplicate()
+			new_material.albedo_color = new_color
+			bristles.set_surface_override_material(0, new_material)
+			print("*** Bristle color changed successfully!")
+		else:
+			print("*** ERROR: No material found on bristles")
+	else:
+		print("*** ERROR: Bristles not found!")
+	
+	# Update canvas drawing color
+	# This will be used when drawing on the canvas
+	print("Brush color changed to: ", new_color)
