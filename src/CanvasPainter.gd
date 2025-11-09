@@ -19,7 +19,7 @@ func draw_butterfly_left_half():
 	var canvas_size = viewport.size if viewport else Vector2(1024, 1024)
 	var center_x = canvas_size.x * 0.5
 	var center_y = canvas_size.y * 0.5
-	var scale = 1.3  # Scale up by 30%
+	var scale = 2.0 
 	
 	# Left wing outline (upper part) - rotated 180 degrees (now points down on left)
 	var left_wing_upper = [
