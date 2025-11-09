@@ -474,7 +474,7 @@ path = "uid://4yewauc2yt6x"
 metadata/_custom_type_script = "uid://ch8f78yymmikl"
 
 [node name="player" parent="." instance=ExtResource("2_0qwtu")]
-transform = Transform3D(-0.0865471, 0, 0.996248, 0, 1, 0, -0.996248, 0, -0.0865471, 1.36718, 1.74005, -0.800404)
+transform = Transform3D(0.596547, 0, 0.802578, 0, 1, 0, -0.802578, 0, 0.596547, 1.02643, 1.38075, -1.07749)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.0719326, 0.99741, 0, -0.99741, -0.0719326, -24.833, 140.092, 15.0659)
@@ -484,7 +484,7 @@ transform = Transform3D(19.8312, 0, 0, 0, 0.0401873, 0, 0, 0, 47.969, 22.0714, -
 mesh = SubResource("BoxMesh_00gdp")
 
 [node name="easel" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.598916, 0.75, -1.02878)
+transform = Transform3D(0.823087, 0, -0.567916, 0, 1, 0, 0.567916, 0, 0.823087, 0.0349543, 0.75, -2.42012)
 
 [node name="LeftLeg" type="MeshInstance3D" parent="easel"]
 transform = Transform3D(0.153031, -0.450772, 0.972894, -0.282991, 2.43249, 0.211236, -0.946836, -0.799878, 0.0941083, -0.058421, 0.836027, 0.873189)
@@ -533,7 +533,7 @@ grow_vertical = 2
 script = ExtResource("18_th6lv")
 
 [node name="Table" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.11028, 1.45562, 0.699724)
+transform = Transform3D(0.790444, 0, -0.612535, 0, 1, 0, 0.612535, 0, 0.790444, -0.0314224, 1.28015, -0.23554)
 
 [node name="Tabletop" type="MeshInstance3D" parent="Table"]
 mesh = SubResource("BoxMesh_tabletop")
@@ -597,4 +597,4 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.58, 
 mesh = SubResource("BoxMesh_table_apron")
 
 [node name="Brush" parent="Table" instance=ExtResource("18_00gdp")]
-transform = Transform3D(-0.0229453, -0.61136, -0.79102, 0.99861, -0.0515656, 0.010887, -0.0474453, -0.789671, 0.611694, -0.18, 0.08, -0.05)
+transform = Transform3D(-0.0521709, -0.996481, 0.065603, 0.99861, -0.0515656, 0.010887, -0.00746578, 0.0660794, 0.997787, -0.2533, 0.08, -0.283425)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ci0gw41etfb18"]
+[gd_scene load_steps=18 format=3 uid="uid://ci0gw41etfb18"]
 
 [ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_7xen6"]
 [ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="2_w31xv"]
@@ -7,6 +7,9 @@
 [ext_resource type="Script" uid="uid://w21juo7k2j1s" path="res://addons/godot-xr-tools/hands/poses/hand_pose_settings.gd" id="4_5iva2"]
 [ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="5_im4lr"]
 [ext_resource type="Animation" uid="uid://c8dghcftg1thx" path="res://addons/godot-xr-tools/hands/animations/right/Grip Shaft.res" id="6_3mfpt"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_brush"]
+friction = 0.8
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_w31xv"]
 radius = 0.1
@@ -58,6 +61,9 @@ height = 0.05
 radial_segments = 16
 
 [node name="Brush" instance=ExtResource("1_7xen6")]
+physics_material_override = SubResource("PhysicsMaterial_brush")
+linear_damp = 2.0
+angular_damp = 2.0
 
 [node name="CollisionShape3D" parent="." index="0"]
 shape = SubResource("CapsuleShape3D_w31xv")
