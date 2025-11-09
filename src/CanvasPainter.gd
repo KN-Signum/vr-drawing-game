@@ -10,6 +10,84 @@ var draw_width: float = 8.0
 @export var enable_debug: bool = false
 @export var show_canvas_bounds: bool = false
 
+func _ready():
+	# Pre-draw left half of butterfly
+	draw_butterfly_left_half()
+
+func draw_butterfly_left_half():
+	var viewport = get_parent() as SubViewport
+	var canvas_size = viewport.size if viewport else Vector2(1024, 1024)
+	var center_x = canvas_size.x * 0.5
+	var center_y = canvas_size.y * 0.5
+	var scale = 1.3  # Scale up by 30%
+	
+	# Left wing outline (upper part) - rotated 180 degrees (now points down on left)
+	var left_wing_upper = [
+		Vector2(center_x - 50 * scale, center_y),
+		Vector2(center_x - 120 * scale, center_y + 80),
+		Vector2(center_x - 140 * scale, center_y + 150),
+		Vector2(center_x - 120 * scale, center_y + 200),
+		Vector2(center_x - 80 * scale, center_y + 220),
+		Vector2(center_x - 20 * scale, center_y + 210),
+		Vector2(center_x + 10 * scale, center_y + 180),
+		Vector2(center_x + 20 * scale, center_y + 140)
+	]
+	
+	# Left wing outline (lower part) - rotated 180 degrees (now points up on left)
+	var left_wing_lower = [
+		Vector2(center_x + 20 * scale, center_y + 140),
+		Vector2(center_x + 60 * scale, center_y + 120),
+		Vector2(center_x + 120 * scale, center_y + 130),
+		Vector2(center_x + 160 * scale, center_y + 120),
+		Vector2(center_x + 180 * scale, center_y + 90),
+		Vector2(center_x + 170 * scale, center_y + 50),
+		Vector2(center_x + 130 * scale, center_y + 20),
+		Vector2(center_x + 80 * scale, center_y)
+	]
+	
+	# Body (left side) - now horizontal pointing right
+	var body_left = [
+		Vector2(center_x - 80 * scale, center_y),
+		Vector2(center_x - 50 * scale, center_y),
+		Vector2(center_x, center_y),
+		Vector2(center_x + 50 * scale, center_y),
+		Vector2(center_x + 100 * scale, center_y)
+	]
+	
+	# Add upper wing
+	draw_points.append(null)
+	draw_colors.append(null)
+	for point in left_wing_upper:
+		draw_points.append(point)
+		draw_colors.append(Color.BLACK)
+	
+	# Add lower wing
+	draw_points.append(null)
+	draw_colors.append(null)
+	for point in left_wing_lower:
+		draw_points.append(point)
+		draw_colors.append(Color.BLACK)
+	
+	# Add body
+	draw_points.append(null)
+	draw_colors.append(null)
+	for point in body_left:
+		draw_points.append(point)
+		draw_colors.append(Color.BLACK)
+	
+	# Add some decorative curves on the wing - rotated 180 degrees
+	var wing_detail = [
+		Vector2(center_x - 100 * scale, center_y + 150),
+		Vector2(center_x - 80 * scale, center_y + 130),
+		Vector2(center_x - 50 * scale, center_y + 120)
+	]
+	
+	draw_points.append(null)
+	draw_colors.append(null)
+	for point in wing_detail:
+		draw_points.append(point)
+		draw_colors.append(Color.BLACK)
+
 # Function called by the Easel to add new points
 func add_draw_point(point: Vector2, is_new_stroke: bool, color: Color = Color.BLACK):
 	if is_new_stroke:
