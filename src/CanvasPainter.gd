@@ -6,8 +6,8 @@ var draw_color: Color = Color.BLACK
 var draw_width: float = 8.0
 
 # Debug settings
-@export var enable_debug: bool = true
-@export var show_canvas_bounds: bool = true
+@export var enable_debug: bool = false
+@export var show_canvas_bounds: bool = false
 
 # Function called by the Easel to add new points
 func add_draw_point(point: Vector2, is_new_stroke: bool):

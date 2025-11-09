@@ -9,8 +9,8 @@ extends StaticBody3D
 @export var draw_width: float = 8.0
 
 # Debug settings
-@export var enable_debug: bool = true
-@export var show_debug_spheres: bool = true
+@export var enable_debug: bool = false
+@export var show_debug_spheres: bool = false
 
 var painter_2d: Node2D # Variable now holds the Painter2D node
 var canvas_size: Vector2

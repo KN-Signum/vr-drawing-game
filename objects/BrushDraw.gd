@@ -21,13 +21,11 @@ func _ready():
 		push_error("RayCast3D node not found at path: " + str(raycast_path))
 	
 	visual_ray = get_node(visual_ray_path) as MeshInstance3D
-	if not visual_ray:
-		push_error("VisualRay MeshInstance3D node not found at path: " + str(visual_ray_path))
-	
-	setup_visual_ray()
+	if visual_ray:
+		visual_ray.visible = false  # Hide the visual ray indicator
 
 func _physics_process(delta):
-	update_visual_ray()
+	# update_visual_ray()  # Disabled - no visual ray needed
 	
 	if draw_ray.is_colliding():
 		var collider = draw_ray.get_collider()
@@ -106,7 +104,7 @@ func update_visual_ray():
 	if not visual_ray or not draw_ray:
 		return
 	
-	var ray_length = 0.15  # Default ray length (matches target_position)
+	var ray_length = 0.05  # Default ray length (matches bristle length)
 	var material = visual_ray.material_override as StandardMaterial3D
 	
 	if draw_ray.is_colliding():
