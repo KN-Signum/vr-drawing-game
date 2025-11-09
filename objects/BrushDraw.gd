@@ -106,7 +106,7 @@ func update_visual_ray():
 	if not visual_ray or not draw_ray:
 		return
 	
-	var ray_length = 0.3  # Default short ray length
+	var ray_length = 0.08  # Default short ray length (matches target_position)
 	var material = visual_ray.material_override as StandardMaterial3D
 	
 	if draw_ray.is_colliding():
@@ -131,6 +131,6 @@ func update_visual_ray():
 		material.emission = ray_color_normal
 		material.albedo_color = ray_color_normal
 	
-	# Update ray scale and position
+	# Update ray scale - keep the visual ray at its original position (0.07 from bristle tip)
+	# The cylinder extends in +Y direction from the bristle tip
 	visual_ray.scale.y = ray_length
-	visual_ray.position.y = ray_length * 0.5  # Center the cylinder on the ray

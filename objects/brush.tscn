@@ -75,11 +75,11 @@ transform = Transform3D(1, 0, 0, 0, 0.965722, 0.259578, 0, -0.259578, 0.965722, 
 script = ExtResource("2_y41pr")
 
 [node name="DrawRay" type="RayCast3D" parent="Brush" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.350563, -0.0127757)
-target_position = Vector3(0, -0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07, 0)
+target_position = Vector3(0, 0.08, 0)
 
 [node name="VisualRay" type="MeshInstance3D" parent="Brush" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.350563, -0.0127757)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07, 0)
 
 [node name="Handle" type="MeshInstance3D" parent="Brush" index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.09, 0)
