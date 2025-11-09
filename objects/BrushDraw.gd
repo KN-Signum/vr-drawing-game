@@ -38,25 +38,12 @@ func _physics_process(delta):
 		var collider = draw_ray.get_collider()
 		var collision_point = draw_ray.get_collision_point()
 		
-		if enable_debug:
-			print("=== BRUSH DEBUG ===")
-			print("Brush position: ", global_position)
-			print("Ray collision point: ", collision_point)
-			print("Collider: ", collider)
-			if collider:
-				print("Collider groups: ", collider.get_groups())
-			print("===================")
-		
 		# Check if hitting a color swatch
 		if collider is StaticBody3D and collider.is_in_group("color_swatch"):
-			print("*** HIT COLOR SWATCH: ", collider.name)
 			var palette = collider.get_parent()
 			if palette and palette.has_method("get_color_from_body"):
 				var new_color = palette.get_color_from_body(collider)
-				print("*** CHANGING COLOR TO: ", new_color)
 				change_brush_color(new_color)
-			else:
-				print("*** PALETTE NOT FOUND OR NO METHOD")
 			return  # Don't draw on palette
 		
 		if collider is StaticBody3D and collider.is_in_group("canvas"):
@@ -67,8 +54,6 @@ func _physics_process(delta):
 				is_drawing = true
 				current_canvas = canvas_body
 				is_new_stroke = true # This is the start of a new line
-				if enable_debug:
-					print("*** STARTING NEW STROKE ON VALID CANVAS ***")
 
 			# Pass collision point, new stroke flag, and current color to canvas
 			if current_canvas.has_method("draw_at_world_pos"):
@@ -77,17 +62,11 @@ func _physics_process(delta):
 				push_error("EaselDraw.gd is not attached or failed to load.")
 
 		else:
-			if enable_debug and collider:
-				print("*** HITTING NON-CANVAS OBJECT: ", collider, " Groups: ", collider.get_groups())
 			if is_drawing:
-				if enable_debug:
-					print("*** STOPPING DRAWING (not on canvas) ***")
 				stop_drawing_on_canvas()
 
 	else:
 		if is_drawing:
-			if enable_debug:
-				print("*** STOPPING DRAWING (no collision) ***")
 			stop_drawing_on_canvas()
 			
 func stop_drawing_on_canvas():
@@ -154,24 +133,12 @@ func update_visual_ray():
 
 func change_brush_color(new_color: Color):
 	current_color = new_color
-	print("*** CHANGE_BRUSH_COLOR CALLED with: ", new_color)
 	
 	# Change bristle color
 	if bristles:
-		print("*** Bristles found: ", bristles)
 		var material = bristles.get_active_material(0) as StandardMaterial3D
-		print("*** Current material: ", material)
 		if material:
 			# Create a new material instance to avoid modifying the shared resource
 			var new_material = material.duplicate()
 			new_material.albedo_color = new_color
 			bristles.set_surface_override_material(0, new_material)
-			print("*** Bristle color changed successfully!")
-		else:
-			print("*** ERROR: No material found on bristles")
-	else:
-		print("*** ERROR: Bristles not found!")
-	
-	# Update canvas drawing color
-	# This will be used when drawing on the canvas
-	print("Brush color changed to: ", new_color)

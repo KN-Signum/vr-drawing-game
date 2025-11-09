@@ -17,17 +17,6 @@ func add_draw_point(point: Vector2, is_new_stroke: bool, color: Color = Color.BL
 		draw_points.append(null)
 		draw_colors.append(null)
 	
-	# Debug: Print where we're drawing on the 2D canvas
-	if enable_debug and point != Vector2.ZERO:
-		var viewport = get_parent() as SubViewport
-		var canvas_size = viewport.size if viewport else Vector2(1024, 1024)
-		print("--- 2D CANVAS DEBUG ---")
-		print("Drawing point at: ", point)
-		print("Canvas size: ", canvas_size)
-		print("Point normalized: (%.3f, %.3f)" % [point.x / canvas_size.x, point.y / canvas_size.y])
-		print("Point in bounds: ", (point.x >= 0 and point.x <= canvas_size.x and point.y >= 0 and point.y <= canvas_size.y))
-		print("----------------------")
-	
 	draw_points.append(point)
 	draw_colors.append(color)
 	
@@ -71,9 +60,6 @@ func _draw():
 			# Initialize the stroke
 			last_point = point
 			last_color = color
-			# Draw a circle at the start of each stroke for debugging
-			if enable_debug:
-				draw_circle(point, 3.0, Color.BLUE)
 		else:
 			# draw_line is available on Node2D.
 			draw_line(last_point, point, last_color, draw_width)

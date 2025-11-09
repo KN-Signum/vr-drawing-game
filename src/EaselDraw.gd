@@ -66,25 +66,7 @@ func draw_at_world_pos(world_pos: Vector3, is_first_contact: bool, color: Color 
 	
 	var current_draw_pos = Vector2(normalized_x, normalized_y) * canvas_size
 	
-	# DEBUG: Print coordinate transformation info
-	if enable_debug:
-		print("=== DRAWING DEBUG ===")
-		print("World Position: ", world_pos)
-		print("Local Position: ", local_pos)
-		print("Local X: %.3f (horizontal, canvas range: -1 to +1)" % local_pos.x)
-		print("Local Y: %.3f (depth into canvas)" % local_pos.y)
-		print("Local Z: %.3f (vertical, canvas range: -1 to +1)" % local_pos.z)
-		print("Normalized X: %.3f, Y: %.3f (0-1 range)" % [normalized_x, normalized_y])
-		print("Canvas Size: ", canvas_size)
-		print("Final 2D Position: ", current_draw_pos)
-		print("Point in canvas bounds: ", (current_draw_pos.x >= 0 and current_draw_pos.x <= canvas_size.x and current_draw_pos.y >= 0 and current_draw_pos.y <= canvas_size.y))
-		print("=====================")
-	
-	# Add debug sphere at world position
-	if show_debug_spheres:
-		create_debug_sphere(world_pos)
-	
-	# 4. Send the point to the painter script for drawing
+	# Send the point to the painter script for drawing
 	painter_2d.add_draw_point(current_draw_pos, is_first_contact, color)
 	
 func stop_drawing():
