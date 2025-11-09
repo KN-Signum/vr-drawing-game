@@ -487,23 +487,23 @@ mesh = SubResource("BoxMesh_00gdp")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.598916, 0.75, -1.02878)
 
 [node name="LeftLeg" type="MeshInstance3D" parent="easel"]
-transform = Transform3D(0.996195, 0, -0.0871557, 0, 1, 0, 0.0871557, 0, 0.996195, -0.35, 0, 0.4)
+transform = Transform3D(0.153031, -0.450772, 0.972894, -0.282991, 2.43249, 0.211236, -0.946836, -0.799878, 0.0941083, -0.058421, 0.836027, 0.873189)
 mesh = SubResource("CylinderMesh_easel_leg")
 
 [node name="RightLeg" type="MeshInstance3D" parent="easel"]
-transform = Transform3D(0.996195, 0, 0.0871557, 0, 1, 0, -0.0871557, 0, 0.996195, 0.35, 0, 0.4)
+transform = Transform3D(-0.140104, -0.461693, 0.974083, 0.285797, 2.43012, 0.211494, -0.947993, 0.800856, -0.0801989, -0.058421, 0.836027, -0.334404)
 mesh = SubResource("CylinderMesh_easel_leg")
 
 [node name="BackLeg" type="MeshInstance3D" parent="easel"]
-transform = Transform3D(0.996195, 0, 0, 0, 1, 0, 0, 0, 0.996195, 0, 0, -0.6)
+transform = Transform3D(0.00707775, 0.431985, 0.981894, -0.0013645, 2.24074, -0.189296, -0.999974, -1.48769e-08, 0.00720808, -0.725608, 0.943612, 0.278546)
 mesh = SubResource("CylinderMesh_easel_leg")
 
 [node name="Shelf" type="MeshInstance3D" parent="easel"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0.35)
+transform = Transform3D(0.0225626, 0, 0.986018, 0, 1, 0, -3.13008, 0, 0.00710753, 0.212495, 0.3, 0.267618)
 mesh = SubResource("BoxMesh_easel_shelf")
 
 [node name="Canvas" type="MeshInstance3D" parent="easel"]
-transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, 0, 1, 0.3)
+transform = Transform3D(0.190723, 0.981644, 0, -0.981644, 0.190723, 0, 0, 0, 1, 0, 1.28619, 0.3)
 mesh = SubResource("PlaneMesh_xtube")
 surface_material_override/0 = SubResource("StandardMaterial3D_whabk")
 
