@@ -106,7 +106,7 @@ func update_visual_ray():
 	if not visual_ray or not draw_ray:
 		return
 	
-	var ray_length = 0.08  # Default short ray length (matches target_position)
+	var ray_length = 0.15  # Default ray length (matches target_position)
 	var material = visual_ray.material_override as StandardMaterial3D
 	
 	if draw_ray.is_colliding():
