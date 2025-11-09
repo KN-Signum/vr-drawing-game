@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://b5sx88mxiip42"]
+[gd_scene load_steps=58 format=3 uid="uid://b5sx88mxiip42"]
 
 [ext_resource type="Script" uid="uid://7mx520pokpko" path="res://src/world.gd" id="1_xlegt"]
 [ext_resource type="PackedScene" uid="uid://cmj162jgobre4" path="res://src/player.tscn" id="2_0qwtu"]
@@ -333,6 +333,21 @@ shader_parameter/uv2_offset = Vector3(0, 0, 0)
 material = SubResource("ShaderMaterial_vmuob")
 size = Vector3(50, 10, 40)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_easel_wood"]
+albedo_color = Color(0.35, 0.22, 0.12, 1)
+roughness = 0.85
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_easel_leg"]
+material = SubResource("StandardMaterial3D_easel_wood")
+top_radius = 0.02
+bottom_radius = 0.025
+height = 1.5
+radial_segments = 8
+
+[sub_resource type="BoxMesh" id="BoxMesh_easel_shelf"]
+material = SubResource("StandardMaterial3D_easel_wood")
+size = Vector3(0.8, 0.02, 0.15)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kqsvi"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_xtube"]
@@ -350,18 +365,33 @@ albedo_texture = SubResource("ViewportTexture_5735e")
 [sub_resource type="BoxShape3D" id="BoxShape3D_xtube"]
 size = Vector3(2, 1, 2)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yyjdi"]
-albedo_color = Color(0.14348, 0.0442606, 0, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_table_wood"]
+albedo_color = Color(0.45, 0.3, 0.2, 1)
+roughness = 0.7
 
-[sub_resource type="BoxMesh" id="BoxMesh_yyjdi"]
-material = SubResource("StandardMaterial3D_yyjdi")
-
-[sub_resource type="Skin" id="Skin_xtube"]
+[sub_resource type="BoxMesh" id="BoxMesh_tabletop"]
+material = SubResource("StandardMaterial3D_table_wood")
+size = Vector3(1.2, 0.05, 0.8)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yyjdi"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_vmuob"]
-size = Vector3(1, 1.41101, 1)
+[sub_resource type="BoxShape3D" id="BoxShape3D_tabletop_collision"]
+size = Vector3(1.2, 0.05, 0.8)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_table_leg"]
+material = SubResource("StandardMaterial3D_table_wood")
+top_radius = 0.04
+bottom_radius = 0.045
+height = 0.7
+radial_segments = 8
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_table_leg"]
+height = 0.7
+radius = 0.045
+
+[sub_resource type="BoxMesh" id="BoxMesh_table_apron"]
+material = SubResource("StandardMaterial3D_table_wood")
+size = Vector3(1.1, 0.08, 0.04)
 
 [node name="world" type="Node3D"]
 script = ExtResource("1_xlegt")
@@ -444,7 +474,7 @@ path = "uid://4yewauc2yt6x"
 metadata/_custom_type_script = "uid://ch8f78yymmikl"
 
 [node name="player" parent="." instance=ExtResource("2_0qwtu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25854, 0)
+transform = Transform3D(-0.0865471, 0, 0.996248, 0, 1, 0, -0.996248, 0, -0.0865471, 1.36718, 1.74005, -0.800404)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.0719326, 0.99741, 0, -0.99741, -0.0719326, -24.833, 140.092, 15.0659)
@@ -453,16 +483,37 @@ transform = Transform3D(1, 0, 0, 0, -0.0719326, 0.99741, 0, -0.99741, -0.0719326
 transform = Transform3D(19.8312, 0, 0, 0, 0.0401873, 0, 0, 0, 47.969, 22.0714, -2.61915, -186.815)
 mesh = SubResource("BoxMesh_00gdp")
 
-[node name="easel" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.516456, 0.348737, 0.104473, 0, 0.181331, -0.605291, -0.364049, 0.494732, 0.14821, -0.598916, 1.49896, -1.02878)
+[node name="easel" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.598916, 0.75, -1.02878)
+
+[node name="LeftLeg" type="MeshInstance3D" parent="easel"]
+transform = Transform3D(0.996195, 0, -0.0871557, 0, 1, 0, 0.0871557, 0, 0.996195, -0.35, 0, 0.4)
+mesh = SubResource("CylinderMesh_easel_leg")
+
+[node name="RightLeg" type="MeshInstance3D" parent="easel"]
+transform = Transform3D(0.996195, 0, 0.0871557, 0, 1, 0, -0.0871557, 0, 0.996195, 0.35, 0, 0.4)
+mesh = SubResource("CylinderMesh_easel_leg")
+
+[node name="BackLeg" type="MeshInstance3D" parent="easel"]
+transform = Transform3D(0.996195, 0, 0, 0, 1, 0, 0, 0, 0.996195, 0, 0, -0.6)
+mesh = SubResource("CylinderMesh_easel_leg")
+
+[node name="Shelf" type="MeshInstance3D" parent="easel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0.35)
+mesh = SubResource("BoxMesh_easel_shelf")
+
+[node name="Canvas" type="MeshInstance3D" parent="easel"]
+transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, 0, 1, 0.3)
 mesh = SubResource("PlaneMesh_xtube")
 surface_material_override/0 = SubResource("StandardMaterial3D_whabk")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="easel" groups=["canvas"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="easel/Canvas" groups=["canvas"]]
 script = ExtResource("17_vmuob")
+viewport_path = NodePath("../../../CanvasViewport")
+painter_path = NodePath("../../../CanvasViewport/Painter2D")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="easel/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0.0684421, 0, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="easel/Canvas/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, 0)
 shape = SubResource("BoxShape3D_xtube")
 
 [node name="CanvasViewport" type="SubViewport" parent="."]
@@ -481,18 +532,69 @@ grow_vertical = 2
 [node name="Painter2D" type="Node2D" parent="CanvasViewport"]
 script = ExtResource("18_th6lv")
 
-[node name="Table" type="MeshInstance3D" parent="."]
-physics_interpolation_mode = 1
-transform = Transform3D(1.6957, 0, 0, 0, 2.32667, 0, 0, 0, 1.90448, 1.11028, 0.07137, -0.415593)
-mesh = SubResource("BoxMesh_yyjdi")
-skin = SubResource("Skin_xtube")
+[node name="Table" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.11028, 1.45562, 0.699724)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Table"]
+[node name="Tabletop" type="MeshInstance3D" parent="Table"]
+mesh = SubResource("BoxMesh_tabletop")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Table/Tabletop"]
 physics_material_override = SubResource("PhysicsMaterial_yyjdi")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Table/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00319093, -0.197613, 0)
-shape = SubResource("BoxShape3D_vmuob")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Table/Tabletop/StaticBody3D"]
+shape = SubResource("BoxShape3D_tabletop_collision")
 
-[node name="Cube" parent="Table" instance=ExtResource("18_00gdp")]
-transform = Transform3D(-0.0229453, -0.61136, -0.79102, 0.99861, -0.0515656, 0.010887, -0.0474453, -0.789671, 0.611694, -0.308522, 0.558738, -0.0854849)
+[node name="LegFL" type="MeshInstance3D" parent="Table"]
+transform = Transform3D(1, 0, 0, 0, 1.92764, 0, 0, 0, 1, -0.522688, -0.704904, 0.339557)
+mesh = SubResource("CylinderMesh_table_leg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Table/LegFL"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Table/LegFL/StaticBody3D"]
+shape = SubResource("CylinderShape3D_table_leg")
+
+[node name="LegFR" type="MeshInstance3D" parent="Table"]
+transform = Transform3D(1, 0, 0, 0, 1.92764, 0, 0, 0, 1, 0.517312, -0.704904, 0.339557)
+mesh = SubResource("CylinderMesh_table_leg")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="Table/LegFR"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Table/LegFR/StaticBody3D2"]
+shape = SubResource("CylinderShape3D_table_leg")
+
+[node name="LegBL" type="MeshInstance3D" parent="Table"]
+transform = Transform3D(1, 0, 0, 0, 1.92764, 0, 0, 0, 1, -0.522688, -0.704904, -0.340443)
+mesh = SubResource("CylinderMesh_table_leg")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="Table/LegBL"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Table/LegBL/StaticBody3D3"]
+shape = SubResource("CylinderShape3D_table_leg")
+
+[node name="LegBR" type="MeshInstance3D" parent="Table"]
+transform = Transform3D(1, 0, 0, 0, 1.92764, 0, 0, 0, 1, 0.517312, -0.704904, -0.340443)
+mesh = SubResource("CylinderMesh_table_leg")
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="Table/LegBR"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Table/LegBR/StaticBody3D4"]
+shape = SubResource("CylinderShape3D_table_leg")
+
+[node name="ApronFront" type="MeshInstance3D" parent="Table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.065, 0.38)
+mesh = SubResource("BoxMesh_table_apron")
+
+[node name="ApronBack" type="MeshInstance3D" parent="Table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.065, -0.38)
+mesh = SubResource("BoxMesh_table_apron")
+
+[node name="ApronLeft" type="MeshInstance3D" parent="Table"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.58, -0.065, 0)
+mesh = SubResource("BoxMesh_table_apron")
+
+[node name="ApronRight" type="MeshInstance3D" parent="Table"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.58, -0.065, 0)
+mesh = SubResource("BoxMesh_table_apron")
+
+[node name="Brush" parent="Table" instance=ExtResource("18_00gdp")]
+transform = Transform3D(-0.0229453, -0.61136, -0.79102, 0.99861, -0.0515656, 0.010887, -0.0474453, -0.789671, 0.611694, -0.18, 0.08, -0.05)

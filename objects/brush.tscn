@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://ci0gw41etfb18"]
+[gd_scene load_steps=17 format=3 uid="uid://ci0gw41etfb18"]
 
 [ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_7xen6"]
 [ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="2_w31xv"]
@@ -23,16 +23,39 @@ closed_pose = ExtResource("6_3mfpt")
 metadata/_custom_type_script = "uid://w21juo7k2j1s"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i110y"]
-albedo_color = Color(0.280542, 0.224213, 0.0357752, 1)
+albedo_color = Color(0.4, 0.25, 0.15, 1)
+roughness = 0.8
+uv1_scale = Vector3(4, 4, 4)
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_gbdsv"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_handle"]
 material = SubResource("StandardMaterial3D_i110y")
+top_radius = 0.012
+bottom_radius = 0.015
+height = 0.18
+radial_segments = 12
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ferrule"]
+albedo_color = Color(0.7, 0.7, 0.75, 1)
+metallic = 0.8
+roughness = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ferrule"]
+material = SubResource("StandardMaterial3D_ferrule")
+top_radius = 0.013
+bottom_radius = 0.011
+height = 0.02
+radial_segments = 12
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y41pr"]
-albedo_color = Color(1, 1, 0.733333, 1)
+albedo_color = Color(0.95, 0.9, 0.75, 1)
+roughness = 0.9
 
-[sub_resource type="PrismMesh" id="PrismMesh_ixrtd"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_bristles"]
 material = SubResource("StandardMaterial3D_y41pr")
+top_radius = 0.01
+bottom_radius = 0.003
+height = 0.05
+radial_segments = 16
 
 [node name="Brush" instance=ExtResource("1_7xen6")]
 
@@ -59,10 +82,14 @@ target_position = Vector3(0, -0.5, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.350563, -0.0127757)
 
 [node name="Handle" type="MeshInstance3D" parent="Brush" index="2"]
-transform = Transform3D(0.06, 0, 0, 0, 0.28, 0, 0, 0, 0.06, 0, 0, 0)
-mesh = SubResource("CapsuleMesh_gbdsv")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.09, 0)
+mesh = SubResource("CylinderMesh_handle")
 skeleton = NodePath("../..")
 
-[node name="Bristles" type="MeshInstance3D" parent="Brush" index="3"]
-transform = Transform3D(0.0698907, 0, 0, 0, 0.103514, 0, 0, 0, 0.0554896, -0.000511725, 0.255749, -0.000248894)
-mesh = SubResource("PrismMesh_ixrtd")
+[node name="Ferrule" type="MeshInstance3D" parent="Brush" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+mesh = SubResource("CylinderMesh_ferrule")
+
+[node name="Bristles" type="MeshInstance3D" parent="Brush" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.045, 0)
+mesh = SubResource("CylinderMesh_bristles")

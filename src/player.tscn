@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cmj162jgobre4"]
+[gd_scene load_steps=6 format=3 uid="uid://cmj162jgobre4"]
 
 [ext_resource type="PackedScene" uid="uid://cy03d57iyrci" path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_physics_hand.tscn" id="1_ehvfd"]
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="2_bktlc"]
-[ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="3_pg28d"]
 [ext_resource type="PackedScene" uid="uid://kcqomcjq52np" path="res://addons/godot-xr-tools/hands/scenes/highpoly/right_physics_hand.tscn" id="4_bktlc"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_21lrq"]
@@ -37,11 +36,6 @@ shape = SubResource("SphereShape3D_21lrq")
 grab_collision_mask = 327687
 ranged_collision_mask = 7
 
-[node name="FunctionPointer" parent="XROrigin3D/XRController3D/Skeleton3D/XRHandModifier3D/Area3D" instance=ExtResource("3_pg28d")]
-laser_length = 1
-show_target = true
-collision_mask = 5242887
-
 [node name="XRController3D2" type="XRController3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.204664, 0.540522, -0.437028)
 tracker = &"left_hand"
@@ -60,6 +54,3 @@ shape = SubResource("SphereShape3D_pg28d")
 [node name="FunctionPickup" parent="XROrigin3D/XRController3D2/Skeleton3D/XRHandModifier3D/Area3D" instance=ExtResource("2_bktlc")]
 grab_collision_mask = 327687
 ranged_collision_mask = 7
-
-[node name="FunctionPointer" parent="XROrigin3D/XRController3D2/Skeleton3D/XRHandModifier3D/Area3D" instance=ExtResource("3_pg28d")]
-collision_mask = 5242887
