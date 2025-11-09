@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://b5sx88mxiip42"]
+[gd_scene load_steps=59 format=3 uid="uid://b5sx88mxiip42"]
 
 [ext_resource type="Script" uid="uid://7mx520pokpko" path="res://src/world.gd" id="1_xlegt"]
 [ext_resource type="PackedScene" uid="uid://cmj162jgobre4" path="res://src/player.tscn" id="2_0qwtu"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://ci0gw41etfb18" path="res://objects/brush.tscn" id="18_00gdp"]
 [ext_resource type="Script" uid="uid://cv61rkacs0sv6" path="res://src/CanvasPainter.gd" id="18_th6lv"]
 [ext_resource type="PackedScene" uid="uid://dpn0xl8k5q8pd" path="res://objects/color_palette.tscn" id="19_palette"]
+[ext_resource type="Script" uid="uid://bqmti7cfmnybu" path="res://src/WebSocketStreamer.gd" id="20_streamer"]
 
 [sub_resource type="Resource" id="Resource_wgoqa"]
 script = ExtResource("7_yyjdi")
@@ -599,3 +600,6 @@ transform = Transform3D(0.954562, 0, -0.298008, 0, 1, 0, 0.298008, 0, 0.954562, 
 
 [node name="Brush" parent="Table" instance=ExtResource("18_00gdp")]
 transform = Transform3D(-0.0479674, -0.974862, -0.217573, 0.99861, -0.0515656, 0.010887, -0.0218326, -0.216749, 0.975982, -0.126935, 0.0409997, -0.320066)
+
+[node name="WebSocketStreamer" type="Node" parent="."]
+script = ExtResource("20_streamer")
