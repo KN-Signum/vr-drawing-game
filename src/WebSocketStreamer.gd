@@ -121,6 +121,9 @@ func _handle_message(message: String) -> void:
 					"clear_canvas":
 						# Clear the drawing canvas
 						get_tree().call_group("draw_game", "remote_clear_canvas")
+					"reset_butterfly":
+						# Reset butterfly template on canvas
+						get_tree().call_group("draw_game", "remote_reset_butterfly")
 					_:
 						print("Unknown action: %s" % data["action"])
 

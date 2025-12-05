@@ -75,7 +75,8 @@ func start_game(game_name: String = "draw"):
 			"draw":
 				game_data["actions"] = [
 					{"id": "save_canvas", "name": "Zapisz rysunek", "description": "Zapisuje bieżący stan canvas"},
-					{"id": "clear_canvas", "name": "Wyczyść canvas", "description": "Czyści cały canvas"}
+					{"id": "clear_canvas", "name": "Wyczyść canvas", "description": "Czyści cały canvas"},
+					{"id": "reset_butterfly", "name": "Resetuj motylka", "description": "Przywraca szablon motylka (prawa strona)"}
 				]
 		
 		ws_streamer._send_json(game_data)

@@ -15,9 +15,9 @@ func _ready():
 	add_to_group("draw_game")
 	
 	# Pre-draw left half of butterfly
-	draw_butterfly_left_half()
+	draw_butterfly_right_half()
 
-func draw_butterfly_left_half():
+func draw_butterfly_right_half():
 	var viewport = get_parent() as SubViewport
 	var canvas_size = viewport.size if viewport else Vector2(1024, 1024)
 	var center_x = canvas_size.x * 0.5
@@ -27,24 +27,24 @@ func draw_butterfly_left_half():
 	# Left wing outline (upper part) - rotated 180 degrees (now points down on left)
 	var left_wing_upper = [
 		Vector2(center_x - 50 * scale, center_y),
-		Vector2(center_x - 120 * scale, center_y + 80),
-		Vector2(center_x - 140 * scale, center_y + 150),
-		Vector2(center_x - 120 * scale, center_y + 200),
-		Vector2(center_x - 80 * scale, center_y + 220),
-		Vector2(center_x - 20 * scale, center_y + 210),
-		Vector2(center_x + 10 * scale, center_y + 180),
-		Vector2(center_x + 20 * scale, center_y + 140)
+		Vector2(center_x - 120 * scale, center_y - 80),
+		Vector2(center_x - 140 * scale, center_y - 150),
+		Vector2(center_x - 120 * scale, center_y - 200),
+		Vector2(center_x - 80 * scale, center_y - 220),
+		Vector2(center_x - 20 * scale, center_y - 210),
+		Vector2(center_x + 10 * scale, center_y - 180),
+		Vector2(center_x + 20 * scale, center_y - 140)
 	]
 	
 	# Left wing outline (lower part) - rotated 180 degrees (now points up on left)
 	var left_wing_lower = [
-		Vector2(center_x + 20 * scale, center_y + 140),
-		Vector2(center_x + 60 * scale, center_y + 120),
-		Vector2(center_x + 120 * scale, center_y + 130),
-		Vector2(center_x + 160 * scale, center_y + 120),
-		Vector2(center_x + 180 * scale, center_y + 90),
-		Vector2(center_x + 170 * scale, center_y + 50),
-		Vector2(center_x + 130 * scale, center_y + 20),
+		Vector2(center_x + 20 * scale, center_y - 140),
+		Vector2(center_x + 60 * scale, center_y - 120),
+		Vector2(center_x + 120 * scale, center_y - 130),
+		Vector2(center_x + 160 * scale, center_y - 120),
+		Vector2(center_x + 180 * scale, center_y - 90),
+		Vector2(center_x + 170 * scale, center_y - 50),
+		Vector2(center_x + 130 * scale, center_y - 20),
 		Vector2(center_x + 80 * scale, center_y)
 	]
 	
@@ -80,9 +80,9 @@ func draw_butterfly_left_half():
 	
 	# Add some decorative curves on the wing - rotated 180 degrees
 	var wing_detail = [
-		Vector2(center_x - 100 * scale, center_y + 150),
-		Vector2(center_x - 80 * scale, center_y + 130),
-		Vector2(center_x - 50 * scale, center_y + 120)
+		Vector2(center_x - 100 * scale, center_y - 150),
+		Vector2(center_x - 80 * scale, center_y - 130),
+		Vector2(center_x - 50 * scale, center_y - 120)
 	]
 	
 	draw_points.append(null)
@@ -156,12 +156,11 @@ func remote_clear_canvas():
 	_notify_action_completed("clear_canvas")
 
 func remote_save_canvas():
-	print("Sending canvas image to dashboard")
-	var success = send_canvas_to_dashboard()
-	if not success:
-		_notify_action_completed("save_canvas", false)
+	print("Saving canvas via remote control")
+	var success = save_canvas_to_file()
+	_notify_action_completed("save_canvas", success)
 
-func send_canvas_to_dashboard() -> bool:
+func save_canvas_to_file() -> bool:
 	# Get the viewport and capture the image
 	var viewport = get_parent() as SubViewport
 	if not viewport:
@@ -171,31 +170,21 @@ func send_canvas_to_dashboard() -> bool:
 	# Get the rendered image
 	var img = viewport.get_texture().get_image()
 	
-	# Convert to PNG bytes
-	var png_data = img.save_png_to_buffer()
+	# Generate timestamp for unique filename
+	var datetime = Time.get_datetime_dict_from_system()
+	var filename = "user://canvas_%04d%02d%02d_%02d%02d%02d.png" % [
+		datetime.year, datetime.month, datetime.day,
+		datetime.hour, datetime.minute, datetime.second
+	]
 	
-	# Encode to base64 for JSON transmission
-	var base64_data = Marshalls.raw_to_base64(png_data)
-	
-	# Generate timestamp
-	var timestamp = Time.get_unix_time_from_system()
-	
-	# Send via WebSocket
-	var ws_streamer = get_node_or_null("/root/WebSocketStreamer")
-	if ws_streamer and ws_streamer.has_method("_send_json"):
-		ws_streamer._send_json({
-			"type": "canvas_image",
-			"action": "save_canvas",
-			"image_base64": base64_data,
-			"format": "png",
-			"width": img.get_width(),
-			"height": img.get_height(),
-			"timestamp": timestamp
-		})
-		print("Canvas image sent to dashboard (%d bytes)" % png_data.size())
+	# Save as PNG
+	var err = img.save_png(filename)
+	if err == OK:
+		print("Canvas saved to: %s" % filename)
+		print("Absolute path: %s" % ProjectSettings.globalize_path(filename))
 		return true
 	else:
-		push_error("WebSocketStreamer not available")
+		push_error("Failed to save canvas: %s" % err)
 		return false
 
 func _notify_action_completed(action: String, success: bool = true):
