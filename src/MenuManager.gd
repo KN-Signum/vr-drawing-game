@@ -1,24 +1,41 @@
 extends Control
 
-@export var title_display_time: float = 3.0
-var can_start: bool = false
+@export var info_display_time: float = 5.0
+var current_screen = "info"  # "info" lub "menu"
+var can_continue: bool = false
+
+@onready var info_screen = $CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen
+@onready var menu_screen = $CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen
 
 func _ready():
-	# Ukryj instrukcję na początku
-	var instruction_label = get_node_or_null("CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer/InstructionLabel")
-	if instruction_label:
-		instruction_label.visible = false
+	# Pokaż ekran informacyjny, ukryj menu
+	if info_screen:
+		info_screen.visible = true
+	if menu_screen:
+		menu_screen.visible = false
 	
-	# Czekaj 3 sekundy przed umożliwieniem rozpoczęcia gry
-	await get_tree().create_timer(title_display_time).timeout
-	can_start = true
+	# Czekaj kilka sekund przed umożliwieniem przejścia dalej
+	await get_tree().create_timer(info_display_time).timeout
+	can_continue = true
 	
-	if instruction_label:
-		instruction_label.visible = true
+	# Pokaż informację że można kontynuować
+	var info_instruction = get_node_or_null("CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer/InfoInstruction")
+	if info_instruction:
+		info_instruction.visible = true
 
 func _input(event):
-	if can_start and event.is_action_pressed("ui_accept"):
-		start_game()
+	if event.is_action_pressed("ui_accept"):
+		if current_screen == "info" and can_continue:
+			show_menu_screen()
+		elif current_screen == "menu":
+			start_game()
+
+func show_menu_screen():
+	current_screen = "menu"
+	if info_screen:
+		info_screen.visible = false
+	if menu_screen:
+		menu_screen.visible = true
 
 func start_game():
 	print("Uruchamianie Drawing Game...")

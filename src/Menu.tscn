@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bpj8h6k3xmnvq"]
+[gd_scene load_steps=8 format=3 uid="uid://bpj8h6k3xmnvq"]
 
-[ext_resource type="Script" path="res://src/MenuManager.gd" id="1_menu"]
+[ext_resource type="Script" uid="uid://blba3pj0y10g0" path="res://src/MenuManager.gd" id="1_menu"]
 [ext_resource type="FontFile" uid="uid://dw2fb5d1x5cdv" path="res://other/CherryBombOne-Regular.ttf" id="2_font"]
+[ext_resource type="Texture2D" uid="uid://dvxc863i7bjdl" path="res://other/skn_neuro.png" id="3_8t7h3"]
 [ext_resource type="Texture2D" uid="uid://bjadabogso8um" path="res://other/signum.png" id="3_signum"]
 [ext_resource type="Texture2D" uid="uid://8r1o4f2biy0" path="res://other/wca.png" id="4_wca"]
 
@@ -63,11 +64,67 @@ theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 60
 theme_override_constants/margin_bottom = 40
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/InnerPanel/MarginContainer"]
+[node name="InfoScreen" type="VBoxContainer" parent="CenterContainer/Panel/InnerPanel/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="TitleLabel" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="InfoTitle" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.2, 0.15, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 32
+text = "Informacja o badaniu"
+horizontal_alignment = 1
+
+[node name="InfoText" type="RichTextLabel" parent="CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.3, 0.2, 0.15, 1)
+theme_override_fonts/normal_font = ExtResource("2_font")
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "[center]Witamy w środowisku terapeutycznym stworzonym w ramach projektu wspomagania rehabilitacji pacjentów po udarze, realizowanego przez Uniwersytet Medyczny i Politechnikę 
+Wrocławską. Aplikacja, z której będziesz korzystać, łączy wirtualną rzeczywistość z systemami monitorowania ruchów gałek ocznych oraz aktywności mózgu.[/center]"
+fit_content = true
+scroll_active = false
+
+[node name="InfoLogosContainer" type="HBoxContainer" parent="CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="InfoLogo1" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer/InfoLogosContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+texture = ExtResource("3_8t7h3")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="InfoLogo2" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer/InfoLogosContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+texture = ExtResource("4_wca")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="InfoLogo3" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer/InfoLogosContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+texture = ExtResource("3_signum")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="MenuScreen" type="VBoxContainer" parent="CenterContainer/Panel/InnerPanel/MarginContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 0.5)
@@ -77,7 +134,7 @@ theme_override_font_sizes/font_size = 36
 text = "NEXT"
 horizontal_alignment = 1
 
-[node name="InfoLabel" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer"]
+[node name="InfoLabel" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_font")
@@ -85,39 +142,39 @@ theme_override_font_sizes/font_size = 18
 text = "Projekt realizowany we współpracy z:"
 horizontal_alignment = 1
 
-[node name="LogosContainer" type="HBoxContainer" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer"]
+[node name="LogosContainer" type="HBoxContainer" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen"]
 layout_mode = 2
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="Logo1" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer/LogosContainer"]
+[node name="Logo1" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen/LogosContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 texture = ExtResource("3_signum")
 expand_mode = 3
 stretch_mode = 4
 
-[node name="Logo2" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer/LogosContainer"]
+[node name="Logo2" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen/LogosContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 texture = ExtResource("4_wca")
 expand_mode = 3
 stretch_mode = 4
 
-[node name="Logo3" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer/LogosContainer"]
+[node name="Logo3" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen/LogosContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 texture = ExtResource("3_signum")
 expand_mode = 3
 stretch_mode = 4
 
-[node name="Spacer" type="Control" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer"]
+[node name="Spacer" type="Control" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
-[node name="GameLabel" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer"]
+[node name="GameLabel" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.3, 0.2, 0.15, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 22
 text = "► Drawing Game ◄"

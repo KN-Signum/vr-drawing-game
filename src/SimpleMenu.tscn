@@ -1,9 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://stp3nnggjns4"]
+[gd_scene load_steps=5 format=3 uid="uid://stp3nnggjns4"]
 
 [ext_resource type="Script" uid="uid://861e8dmt2y7g" path="res://src/SimpleMenuManager.gd" id="1_menu"]
 [ext_resource type="FontFile" uid="uid://dw2fb5d1x5cdv" path="res://other/CherryBombOne-Regular.ttf" id="2_font"]
-[ext_resource type="Texture2D" uid="uid://bjadabogso8um" path="res://other/signum.png" id="3_signum"]
-[ext_resource type="Texture2D" uid="uid://8r1o4f2biy0" path="res://other/wca.png" id="4_wca"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
 bg_color = Color(0.8, 0.65, 0.45, 1)
@@ -69,7 +67,7 @@ theme_override_constants/separation = 30
 
 [node name="TitleLabel" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.301961, 0.2, 0.14902, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 0.5)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("2_font")
@@ -77,48 +75,14 @@ theme_override_font_sizes/font_size = 36
 text = "NEXT"
 horizontal_alignment = 1
 
-[node name="InfoLabel" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("2_font")
-theme_override_font_sizes/font_size = 18
-text = "Projekt realizowany we współpracy z:"
-horizontal_alignment = 1
-
-[node name="LogosContainer" type="HBoxContainer" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 40
-alignment = 1
-
-[node name="Logo1" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer/LogosContainer"]
-custom_minimum_size = Vector2(120, 120)
-layout_mode = 2
-texture = ExtResource("3_signum")
-expand_mode = 3
-stretch_mode = 4
-
-[node name="Logo2" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer/LogosContainer"]
-custom_minimum_size = Vector2(120, 120)
-layout_mode = 2
-texture = ExtResource("4_wca")
-expand_mode = 3
-stretch_mode = 4
-
-[node name="Logo3" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer/LogosContainer"]
-custom_minimum_size = Vector2(120, 120)
-layout_mode = 2
-texture = ExtResource("3_signum")
-expand_mode = 3
-stretch_mode = 4
-
-[node name="Spacer" type="Control" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-
 [node name="GameLabel" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.301961, 0.2, 0.14902, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 22
 text = "► Drawing Game ◄"
 horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
