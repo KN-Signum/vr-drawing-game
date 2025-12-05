@@ -109,19 +109,34 @@ func _handle_message(message: String) -> void:
 					"next":
 						# Trigger menu progression
 						get_tree().call_group("menu", "remote_next")
-					"start_game":
-						# Start the selected game
-						get_tree().call_group("menu", "remote_start_game")
+					"start_game_draw":
+						# Start the drawing game
+						get_tree().call_group("menu", "remote_start_game_draw")
+					"exit_game":
+						# Return to menu from game
+						get_tree().change_scene_to_file("res://src/Menu.tscn")
 					_:
 						print("Unknown action: %s" % data["action"])
 
 func _send_menu_state() -> void:
-	# Send current menu state to newly connected clients
-	var state = {
-		"type": "menu_state",
-		"screen": "info"  # or "menu" depending on current state
-	}
-	_send_json(state)
+	# Get current state from MenuManager if it exists
+	var menu_nodes = get_tree().get_nodes_in_group("menu")
+	if menu_nodes.size() > 0:
+		var menu = menu_nodes[0]
+		var state = {
+			"type": "menu_state",
+			"screen": menu.current_screen,
+			"can_continue": menu.can_continue
+		}
+		_send_json(state)
+	else:
+		# Fallback if no menu exists
+		var state = {
+			"type": "menu_state",
+			"screen": "game",
+			"can_continue": false
+		}
+		_send_json(state)
 
 func _send_json(data: Dictionary) -> void:
 	var json_string = JSON.stringify(data)

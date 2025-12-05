@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://bpj8h6k3xmnvq"]
+[gd_scene load_steps=9 format=3 uid="uid://bpj8h6k3xmnvq"]
 
 [ext_resource type="Script" uid="uid://blba3pj0y10g0" path="res://src/MenuManager.gd" id="1_menu"]
+[ext_resource type="Script" uid="uid://cfmqy5uaffbaq" path="res://src/HTTPDiscoveryServer.gd" id="2_discovery"]
 [ext_resource type="FontFile" uid="uid://dw2fb5d1x5cdv" path="res://other/CherryBombOne-Regular.ttf" id="2_font"]
 [ext_resource type="Texture2D" uid="uid://dvxc863i7bjdl" path="res://other/skn_neuro.png" id="3_8t7h3"]
 [ext_resource type="Texture2D" uid="uid://bjadabogso8um" path="res://other/signum.png" id="3_signum"]
@@ -88,8 +89,7 @@ theme_override_colors/default_color = Color(0.3, 0.2, 0.15, 1)
 theme_override_fonts/normal_font = ExtResource("2_font")
 theme_override_font_sizes/normal_font_size = 18
 bbcode_enabled = true
-text = "[center]Witamy w środowisku terapeutycznym stworzonym w ramach projektu wspomagania rehabilitacji pacjentów po udarze, realizowanego przez Uniwersytet Medyczny i Politechnikę 
-Wrocławską. Aplikacja, z której będziesz korzystać, łączy wirtualną rzeczywistość z systemami monitorowania ruchów gałek ocznych oraz aktywności mózgu.[/center]"
+text = "[center]Witamy w środowisku terapeutycznym stworzonym w ramach projektu wspomagania rehabilitacji pacjentów po udarze, realizowanego przez Uniwersytet Medyczny i Politechnikę Wrocławską. Aplikacja, z której będziesz korzystać, łączy wirtualną rzeczywistość z systemami monitorowania ruchów gałek ocznych oraz aktywności mózgu.[/center]"
 fit_content = true
 scroll_active = false
 
@@ -179,3 +179,6 @@ theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 22
 text = "► Drawing Game ◄"
 horizontal_alignment = 1
+
+[node name="HTTPDiscoveryServer" type="Node" parent="."]
+script = ExtResource("2_discovery")
