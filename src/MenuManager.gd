@@ -61,13 +61,24 @@ func show_menu_screen():
 func start_game(game_name: String = "draw"):
 	print("Uruchamianie gry: %s" % game_name)
 	
-	# Notify dashboard that game is starting
+	# Notify dashboard that game is starting with available actions
 	var ws_streamer = get_node_or_null("/root/WebSocketStreamer")
 	if ws_streamer and ws_streamer.has_method("_send_json"):
-		ws_streamer._send_json({
+		var game_data = {
 			"type": "game_started",
-			"game": game_name
-		})
+			"game": game_name,
+			"actions": []
+		}
+		
+		# Add game-specific actions
+		match game_name:
+			"draw":
+				game_data["actions"] = [
+					{"id": "save_canvas", "name": "Zapisz rysunek", "description": "Zapisuje bieżący stan canvas"},
+					{"id": "clear_canvas", "name": "Wyczyść canvas", "description": "Czyści cały canvas"}
+				]
+		
+		ws_streamer._send_json(game_data)
 	
 	# Load appropriate scene based on game name
 	match game_name:

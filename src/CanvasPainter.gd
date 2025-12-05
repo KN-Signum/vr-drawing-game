@@ -11,6 +11,9 @@ var draw_width: float = 8.0
 @export var show_canvas_bounds: bool = false
 
 func _ready():
+	# Add to draw_game group for remote control
+	add_to_group("draw_game")
+	
 	# Pre-draw left half of butterfly
 	draw_butterfly_left_half()
 
@@ -143,3 +146,65 @@ func _draw():
 			draw_line(last_point, point, last_color, draw_width)
 			last_point = point
 			last_color = color
+
+# Remote control functions called via WebSocket
+func remote_clear_canvas():
+	print("Clearing canvas via remote control")
+	draw_points.clear()
+	draw_colors.clear()
+	queue_redraw()
+	_notify_action_completed("clear_canvas")
+
+func remote_save_canvas():
+	print("Sending canvas image to dashboard")
+	var success = send_canvas_to_dashboard()
+	if not success:
+		_notify_action_completed("save_canvas", false)
+
+func send_canvas_to_dashboard() -> bool:
+	# Get the viewport and capture the image
+	var viewport = get_parent() as SubViewport
+	if not viewport:
+		push_error("Cannot save: Viewport not found")
+		return false
+	
+	# Get the rendered image
+	var img = viewport.get_texture().get_image()
+	
+	# Convert to PNG bytes
+	var png_data = img.save_png_to_buffer()
+	
+	# Encode to base64 for JSON transmission
+	var base64_data = Marshalls.raw_to_base64(png_data)
+	
+	# Generate timestamp
+	var timestamp = Time.get_unix_time_from_system()
+	
+	# Send via WebSocket
+	var ws_streamer = get_node_or_null("/root/WebSocketStreamer")
+	if ws_streamer and ws_streamer.has_method("_send_json"):
+		ws_streamer._send_json({
+			"type": "canvas_image",
+			"action": "save_canvas",
+			"image_base64": base64_data,
+			"format": "png",
+			"width": img.get_width(),
+			"height": img.get_height(),
+			"timestamp": timestamp
+		})
+		print("Canvas image sent to dashboard (%d bytes)" % png_data.size())
+		return true
+	else:
+		push_error("WebSocketStreamer not available")
+		return false
+
+func _notify_action_completed(action: String, success: bool = true):
+	# Notify dashboard that action was completed
+	var ws_streamer = get_node_or_null("/root/WebSocketStreamer")
+	if ws_streamer and ws_streamer.has_method("_send_json"):
+		ws_streamer._send_json({
+			"type": "action_completed",
+			"action": action,
+			"success": success,
+			"timestamp": Time.get_unix_time_from_system()
+		})

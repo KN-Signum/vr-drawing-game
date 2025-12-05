@@ -115,6 +115,12 @@ func _handle_message(message: String) -> void:
 					"exit_game":
 						# Return to menu from game
 						get_tree().change_scene_to_file("res://src/Menu.tscn")
+					"save_canvas":
+						# Save current drawing
+						get_tree().call_group("draw_game", "remote_save_canvas")
+					"clear_canvas":
+						# Clear the drawing canvas
+						get_tree().call_group("draw_game", "remote_clear_canvas")
 					_:
 						print("Unknown action: %s" % data["action"])
 
