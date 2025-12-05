@@ -44,6 +44,8 @@ func _process(delta: float) -> void:
 			# show client IP
 			print("WS client from %s (state=%s, total=%d)"
 				% [conn.get_connected_host(), _state_name(ws.get_ready_state()), _clients.size()])
+			# Send initial menu state info
+			_send_menu_state()
 		else:
 			conn.disconnect_from_host()
 
@@ -51,6 +53,13 @@ func _process(delta: float) -> void:
 	for i in range(_clients.size() - 1, -1, -1):
 		var c: WebSocketPeer = _clients[i]
 		c.poll()
+		
+		# Process incoming messages
+		while c.get_available_packet_count() > 0:
+			var packet: PackedByteArray = c.get_packet()
+			var message: String = packet.get_string_from_utf8()
+			_handle_message(message)
+		
 		if c.get_ready_state() == WebSocketPeer.STATE_CLOSED:
 			_clients.remove_at(i)
 			print("WS: client removed (total=%d)" % _clients.size())
@@ -86,6 +95,41 @@ func _broadcast_frame() -> void:
 			elif err != OK:
 				# Other error, might need to disconnect this client
 				print("Failed to send to client: %s" % err)
+
+func _handle_message(message: String) -> void:
+	print("WS received: %s" % message)
+	var json = JSON.new()
+	var parse_result = json.parse(message)
+	
+	if parse_result == OK:
+		var data = json.get_data()
+		if typeof(data) == TYPE_DICTIONARY:
+			if data.has("action"):
+				match data["action"]:
+					"next":
+						# Trigger menu progression
+						get_tree().call_group("menu", "remote_next")
+					"start_game":
+						# Start the selected game
+						get_tree().call_group("menu", "remote_start_game")
+					_:
+						print("Unknown action: %s" % data["action"])
+
+func _send_menu_state() -> void:
+	# Send current menu state to newly connected clients
+	var state = {
+		"type": "menu_state",
+		"screen": "info"  # or "menu" depending on current state
+	}
+	_send_json(state)
+
+func _send_json(data: Dictionary) -> void:
+	var json_string = JSON.stringify(data)
+	var packet = json_string.to_utf8_buffer()
+	
+	for c in _clients:
+		if c.get_ready_state() == WebSocketPeer.STATE_OPEN:
+			c.send_text(json_string)
 
 func _state_name(s: int) -> String:
 	match s:

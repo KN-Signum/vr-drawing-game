@@ -80,7 +80,15 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.301961, 0.2, 0.14902, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 22
-text = "► Drawing Game ◄"
+text = "Malowanie"
+horizontal_alignment = 1
+
+[node name="GameLabel2" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.301961, 0.2, 0.14902, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "Spacer w lesie"
 horizontal_alignment = 1
 
 [node name="Spacer" type="Control" parent="CenterContainer/Panel/InnerPanel/MarginContainer/VBoxContainer"]
