@@ -112,6 +112,9 @@ func _handle_message(message: String) -> void:
 					"start_game_draw":
 						# Start the drawing game
 						get_tree().call_group("menu", "remote_start_game_draw")
+					"start_game_forest_walk":
+						# Start the forest walk game
+						get_tree().call_group("menu", "remote_start_game_forest_walk")
 					"exit_game":
 						# Return to menu from game
 						get_tree().change_scene_to_file("res://src/Menu.tscn")

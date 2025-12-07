@@ -39,6 +39,25 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.4, 0.6, 0.85, 1)
 
+[node name="IPAddressLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -400.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 120.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 0.9)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "WebSocket Server:
+Detecting IP addresses..."
+horizontal_alignment = 2
+vertical_alignment = 1
+
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -126,58 +145,35 @@ theme_override_constants/separation = 30
 
 [node name="TitleLabel" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 0.5)
-theme_override_constants/outline_size = 2
+theme_override_colors/font_color = Color(0.3, 0.2, 0.15, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 36
 text = "NEXT"
 horizontal_alignment = 1
 
-[node name="InfoLabel" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("2_font")
-theme_override_font_sizes/font_size = 18
-text = "Projekt realizowany we współpracy z:"
-horizontal_alignment = 1
-
-[node name="LogosContainer" type="HBoxContainer" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen"]
-layout_mode = 2
-theme_override_constants/separation = 40
-alignment = 1
-
-[node name="Logo1" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen/LogosContainer"]
-custom_minimum_size = Vector2(120, 120)
-layout_mode = 2
-texture = ExtResource("3_signum")
-expand_mode = 3
-stretch_mode = 4
-
-[node name="Logo2" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen/LogosContainer"]
-custom_minimum_size = Vector2(120, 120)
-layout_mode = 2
-texture = ExtResource("4_wca")
-expand_mode = 3
-stretch_mode = 4
-
-[node name="Logo3" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen/LogosContainer"]
-custom_minimum_size = Vector2(120, 120)
-layout_mode = 2
-texture = ExtResource("3_signum")
-expand_mode = 3
-stretch_mode = 4
-
 [node name="Spacer" type="Control" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
-[node name="GameLabel" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen"]
+[node name="GamesContainer" type="VBoxContainer" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="Game1" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen/GamesContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.1, 0.05, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "► Drawing Game ◄"
+horizontal_alignment = 1
+
+[node name="Game2" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen/GamesContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.2, 0.15, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 22
-text = "► Drawing Game ◄"
+text = "Spacer w lesie"
 horizontal_alignment = 1
 
 [node name="HTTPDiscoveryServer" type="Node" parent="."]
