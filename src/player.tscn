@@ -10,47 +10,46 @@ radius = 0.1
 [sub_resource type="SphereShape3D" id="SphereShape3D_pg28d"]
 radius = 0.1
 
-[node name="player" type="Node3D"]
+[node name="XROrigin3D" type="XROrigin3D"]
 
-[node name="XROrigin3D" type="XROrigin3D" parent="."]
-
-[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+[node name="XRCamera3D" type="XRCamera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.571297, 0.472844)
+far = 40.0
 
-[node name="XRController3D" type="XRController3D" parent="XROrigin3D"]
+[node name="XRController3D" type="XRController3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.210798, 0.540522, -0.437028)
-tracker = &"right_hand"
+tracker = &"left_hand"
 
-[node name="Skeleton3D" type="Skeleton3D" parent="XROrigin3D/XRController3D"]
+[node name="Skeleton3D" type="Skeleton3D" parent="XRController3D"]
 
-[node name="XRHandModifier3D" type="XRHandModifier3D" parent="XROrigin3D/XRController3D/Skeleton3D"]
+[node name="XRHandModifier3D" type="XRHandModifier3D" parent="XRController3D/Skeleton3D"]
 
-[node name="Area3D" type="Area3D" parent="XROrigin3D/XRController3D/Skeleton3D/XRHandModifier3D"]
+[node name="Area3D" type="Area3D" parent="XRController3D/Skeleton3D/XRHandModifier3D"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/XRController3D/Skeleton3D/XRHandModifier3D/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XRController3D/Skeleton3D/XRHandModifier3D/Area3D"]
 shape = SubResource("SphereShape3D_21lrq")
 
-[node name="LeftPhysicsHand" parent="XROrigin3D/XRController3D/Skeleton3D/XRHandModifier3D/Area3D" instance=ExtResource("1_ehvfd")]
+[node name="LeftPhysicsHand" parent="XRController3D/Skeleton3D/XRHandModifier3D/Area3D" instance=ExtResource("1_ehvfd")]
 
-[node name="FunctionPickup" parent="XROrigin3D/XRController3D/Skeleton3D/XRHandModifier3D/Area3D" instance=ExtResource("2_bktlc")]
+[node name="FunctionPickup" parent="XRController3D/Skeleton3D/XRHandModifier3D/Area3D" instance=ExtResource("2_bktlc")]
 grab_collision_mask = 327687
 ranged_collision_mask = 7
 
-[node name="XRController3D2" type="XRController3D" parent="XROrigin3D"]
+[node name="XRController3D2" type="XRController3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.204664, 0.540522, -0.437028)
-tracker = &"left_hand"
+tracker = &"right_hand"
 
-[node name="Skeleton3D" type="Skeleton3D" parent="XROrigin3D/XRController3D2"]
+[node name="Skeleton3D" type="Skeleton3D" parent="XRController3D2"]
 
-[node name="XRHandModifier3D" type="XRHandModifier3D" parent="XROrigin3D/XRController3D2/Skeleton3D"]
+[node name="XRHandModifier3D" type="XRHandModifier3D" parent="XRController3D2/Skeleton3D"]
 
-[node name="Area3D" type="Area3D" parent="XROrigin3D/XRController3D2/Skeleton3D/XRHandModifier3D"]
+[node name="Area3D" type="Area3D" parent="XRController3D2/Skeleton3D/XRHandModifier3D"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/XRController3D2/Skeleton3D/XRHandModifier3D/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XRController3D2/Skeleton3D/XRHandModifier3D/Area3D"]
 shape = SubResource("SphereShape3D_pg28d")
 
-[node name="RightPhysicsHand" parent="XROrigin3D/XRController3D2/Skeleton3D/XRHandModifier3D/Area3D" instance=ExtResource("4_bktlc")]
+[node name="RightPhysicsHand" parent="XRController3D2/Skeleton3D/XRHandModifier3D/Area3D" instance=ExtResource("4_bktlc")]
 
-[node name="FunctionPickup" parent="XROrigin3D/XRController3D2/Skeleton3D/XRHandModifier3D/Area3D" instance=ExtResource("2_bktlc")]
+[node name="FunctionPickup" parent="XRController3D2/Skeleton3D/XRHandModifier3D/Area3D" instance=ExtResource("2_bktlc")]
 grab_collision_mask = 327687
 ranged_collision_mask = 7

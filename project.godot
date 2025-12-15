@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="drawing-game"
-run/main_scene="res://src/Menu.tscn"
-config/features=PackedStringArray("4.4", "Forward Plus")
+run/main_scene="uid://b5sx88mxiip42"
+config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -25,6 +25,10 @@ WebSocketStreamer="*res://src/WebSocketStreamer.gd"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot-xr-tools/plugin.cfg", "res://addons/proton_scatter/plugin.cfg", "res://addons/terrain_3d/plugin.cfg")
+
+[filesystem]
+
+import/blender/enabled=false
 
 [input]
 
@@ -39,8 +43,15 @@ grab_object={
 3d_physics/layer_2="player"
 3d_physics/layer_3="pickable"
 
+[rendering]
+
+renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
+
 [xr]
 
 openxr/enabled=true
 openxr/extensions/hand_tracking=true
+openxr/extensions/hand_tracking_controller_data_source=true
+openxr/extensions/eye_gaze_interaction=true
 shaders/enabled=true
