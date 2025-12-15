@@ -113,7 +113,7 @@ shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_5735e")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xtube"]
-size = Vector3(2, 1, 2)
+size = Vector3(2, 0.02, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_table_wood"]
 albedo_color = Color(0.45, 0.3, 0.2, 1)

@@ -11,12 +11,36 @@ extends Node3D
 # Debug settings
 @export var enable_debug: bool = true
 
+# Haptics
+@export var vibrate_on_draw_start: bool = true
+@export_range(0.0, 1.0, 0.05) var vibrate_strength: float = 0.4
+@export_range(0.0, 0.5, 0.01) var vibrate_duration_s: float = 0.05
+
 var draw_ray: RayCast3D
 var visual_ray: MeshInstance3D
 var bristles: MeshInstance3D
 var current_canvas: StaticBody3D = null 
 var is_drawing: bool = false
 var current_color: Color = Color.BLACK 
+
+
+func _vibrate_draw_start() -> void:
+	if not vibrate_on_draw_start:
+		return
+
+	var pickable := get_parent()
+	if not pickable or not pickable.has_method("get_picked_up_by_controller"):
+		return
+
+	var controller := pickable.call("get_picked_up_by_controller") as XRController3D
+	if not controller:
+		return
+
+	if not XRServer.primary_interface:
+		return
+
+	# XRTools expects an OpenXR haptic action named "haptic".
+	XRServer.primary_interface.trigger_haptic_pulse(&"haptic", controller.tracker, 0, vibrate_strength, vibrate_duration_s, 0)
 
 func _ready():
 	draw_ray = get_node(raycast_path) as RayCast3D
@@ -54,6 +78,7 @@ func _physics_process(delta):
 				is_drawing = true
 				current_canvas = canvas_body
 				is_new_stroke = true # This is the start of a new line
+				_vibrate_draw_start()
 
 			# Pass collision point, new stroke flag, and current color to canvas
 			if current_canvas.has_method("draw_at_world_pos"):
