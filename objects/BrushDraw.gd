@@ -16,12 +16,19 @@ extends Node3D
 @export_range(0.0, 1.0, 0.05) var vibrate_strength: float = 0.4
 @export_range(0.0, 0.5, 0.01) var vibrate_duration_s: float = 0.05
 
+# Recovery
+@export var return_home_on_drop: bool = true
+@export_range(0.0, 10.0, 0.1) var return_home_delay_s: float = 1.5
+
 var draw_ray: RayCast3D
 var visual_ray: MeshInstance3D
 var bristles: MeshInstance3D
 var current_canvas: StaticBody3D = null 
 var is_drawing: bool = false
 var current_color: Color = Color.BLACK 
+
+var _home_global_transform: Transform3D
+var _return_home_token: int = 0
 
 
 func _vibrate_draw_start() -> void:
@@ -54,6 +61,61 @@ func _ready():
 	bristles = get_node(bristles_path) as MeshInstance3D
 	if not bristles:
 		push_error("Bristles MeshInstance3D not found at path: " + str(bristles_path))
+
+	var pickable := get_parent()
+	if pickable is Node3D:
+		_home_global_transform = (pickable as Node3D).global_transform
+
+	if pickable and pickable.has_signal("picked_up"):
+		pickable.connect("picked_up", Callable(self, "_on_pickable_picked_up"))
+	if pickable and pickable.has_signal("dropped"):
+		pickable.connect("dropped", Callable(self, "_on_pickable_dropped"))
+
+
+func _on_pickable_picked_up(_pickable) -> void:
+	# Cancel any pending return-home.
+	_return_home_token += 1
+
+
+func _on_pickable_dropped(_pickable) -> void:
+	if not return_home_on_drop:
+		return
+
+	# Stop drawing immediately if user drops mid-stroke.
+	if is_drawing:
+		stop_drawing_on_canvas()
+
+	# Start/replace a delayed return-home.
+	_return_home_token += 1
+	var token := _return_home_token
+
+	if return_home_delay_s > 0.0:
+		await get_tree().create_timer(return_home_delay_s).timeout
+
+	# If we were picked up again, abort.
+	if token != _return_home_token:
+		return
+
+	var pickable := get_parent()
+	if not (pickable is Node3D):
+		return
+
+	# If it's currently held again, don't move it.
+	if pickable.has_method("is_picked_up") and bool(pickable.call("is_picked_up")):
+		return
+
+	# Teleport back to the initial (scene) position.
+	var body := pickable as RigidBody3D
+	if body:
+		var was_frozen := body.freeze
+		body.freeze = true
+		body.global_transform = _home_global_transform
+		body.linear_velocity = Vector3.ZERO
+		body.angular_velocity = Vector3.ZERO
+		body.freeze = was_frozen
+		body.sleeping = true
+	else:
+		(pickable as Node3D).global_transform = _home_global_transform
 
 func _physics_process(delta):
 	# update_visual_ray()  # Disabled - no visual ray needed
