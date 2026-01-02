@@ -20,6 +20,7 @@ func _ready() -> void:
 	_spectator_viewport = SubViewport.new()
 	_spectator_viewport.size = Vector2i(TARGET_W, TARGET_H)
 	_spectator_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	_spectator_viewport.physics_object_picking = false
 	add_child(_spectator_viewport)
 
 	_spectator_camera = Camera3D.new()
@@ -140,7 +141,7 @@ func _handle_message(message: String) -> void:
 						# Start the drawing game
 						get_tree().call_group("menu", "remote_start_game_draw")
 					"start_game_forest_walk":
-						# Start the forest walk game
+						# Start the for	est walk game
 						get_tree().call_group("menu", "remote_start_game_forest_walk")
 					"exit_game":
 						# Return to menu from game

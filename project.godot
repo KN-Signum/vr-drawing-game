@@ -51,7 +51,12 @@ textures/vram_compression/import_etc2_astc=true
 [xr]
 
 openxr/enabled=true
+openxr/default_action_map="res://openxr_action_map.tres"
 openxr/extensions/hand_tracking=true
 openxr/extensions/hand_tracking_controller_data_source=true
 openxr/extensions/eye_gaze_interaction=true
 shaders/enabled=true
+
+[physics]
+
+common/enable_object_picking=false

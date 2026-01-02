@@ -182,6 +182,20 @@ func save_canvas_to_file() -> bool:
 	if err == OK:
 		print("Canvas saved to: %s" % filename)
 		print("Absolute path: %s" % ProjectSettings.globalize_path(filename))
+		
+		# Also send the image data to the dashboard
+		var png_data = img.save_png_to_buffer()
+		var base64_data = Marshalls.raw_to_base64(png_data)
+		
+		var ws_streamer = get_node_or_null("/root/WebSocketStreamer")
+		if ws_streamer and ws_streamer.has_method("_send_json"):
+			ws_streamer._send_json({
+				"type": "canvas_saved",
+				"image_data": base64_data,
+				"filename": filename.get_file(),
+				"timestamp": Time.get_unix_time_from_system()
+			})
+			
 		return true
 	else:
 		push_error("Failed to save canvas: %s" % err)

@@ -1,15 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cmj162jgobre4"]
+[gd_scene load_steps=5 format=3 uid="uid://cmj162jgobre4"]
 
 [ext_resource type="PackedScene" uid="uid://cy03d57iyrci" path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_physics_hand.tscn" id="1_ehvfd"]
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="2_bktlc"]
 [ext_resource type="Script" path="res://src/xr_thumbstick_move.gd" id="3_thumb_move"]
 [ext_resource type="PackedScene" uid="uid://kcqomcjq52np" path="res://addons/godot-xr-tools/hands/scenes/highpoly/right_physics_hand.tscn" id="4_bktlc"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_21lrq"]
-radius = 0.1
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_pg28d"]
-radius = 0.1
 
 [node name="XROrigin3D" type="XROrigin3D"]
 
@@ -24,36 +18,22 @@ far = 40.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.210798, 0.540522, -0.437028)
 tracker = &"left_hand"
 
-[node name="Skeleton3D" type="Skeleton3D" parent="XRController3D"]
+[node name="LeftPhysicsHand" parent="XRController3D" instance=ExtResource("1_ehvfd")]
 
-[node name="XRHandModifier3D" type="XRHandModifier3D" parent="XRController3D/Skeleton3D"]
-
-[node name="Area3D" type="Area3D" parent="XRController3D/Skeleton3D/XRHandModifier3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="XRController3D/Skeleton3D/XRHandModifier3D/Area3D"]
-shape = SubResource("SphereShape3D_21lrq")
-
-[node name="LeftPhysicsHand" parent="XRController3D/Skeleton3D/XRHandModifier3D/Area3D" instance=ExtResource("1_ehvfd")]
-
-[node name="FunctionPickup" parent="XRController3D/Skeleton3D/XRHandModifier3D/Area3D" instance=ExtResource("2_bktlc")]
+[node name="FunctionPickup" parent="XRController3D" instance=ExtResource("2_bktlc")]
 grab_collision_mask = 327687
 ranged_collision_mask = 7
+pickup_axis_action = "grip"
+action_button_action = "trigger_click"
 
 [node name="XRController3D2" type="XRController3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.204664, 0.540522, -0.437028)
 tracker = &"right_hand"
 
-[node name="Skeleton3D" type="Skeleton3D" parent="XRController3D2"]
+[node name="RightPhysicsHand" parent="XRController3D2" instance=ExtResource("4_bktlc")]
 
-[node name="XRHandModifier3D" type="XRHandModifier3D" parent="XRController3D2/Skeleton3D"]
-
-[node name="Area3D" type="Area3D" parent="XRController3D2/Skeleton3D/XRHandModifier3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="XRController3D2/Skeleton3D/XRHandModifier3D/Area3D"]
-shape = SubResource("SphereShape3D_pg28d")
-
-[node name="RightPhysicsHand" parent="XRController3D2/Skeleton3D/XRHandModifier3D/Area3D" instance=ExtResource("4_bktlc")]
-
-[node name="FunctionPickup" parent="XRController3D2/Skeleton3D/XRHandModifier3D/Area3D" instance=ExtResource("2_bktlc")]
+[node name="FunctionPickup" parent="XRController3D2" instance=ExtResource("2_bktlc")]
 grab_collision_mask = 327687
 ranged_collision_mask = 7
+pickup_axis_action = "grip"
+action_button_action = "trigger_click"

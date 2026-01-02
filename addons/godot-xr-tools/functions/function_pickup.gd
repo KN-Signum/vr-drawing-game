@@ -164,11 +164,17 @@ func _process(delta):
 
 	# Handle our grip
 	var grip_value = _controller.get_float(pickup_axis_action)
+	if grip_value == 0.0 and not "/" in pickup_axis_action:
+		grip_value = _controller.get_float("godot/" + pickup_axis_action)
+		
+	print("Pickup Debug: Grip Value: ", grip_value, " Threshold: ", _grip_threshold, " Pressed: ", grip_pressed)
+	
 	if (grip_pressed and grip_value < (_grip_threshold - 0.1)):
 		grip_pressed = false
 		_on_grip_release()
 	elif (!grip_pressed and grip_value > (_grip_threshold + 0.1)):
 		grip_pressed = true
+		print("Pickup Debug: Grip Pressed! Closest Object: ", closest_object)
 		_on_grip_pressed()
 
 	# Calculate average velocity
@@ -271,8 +277,10 @@ func _update_colliders() -> void:
 
 # Called when an object enters the grab sphere
 func _on_grab_entered(target: Node3D) -> void:
+	print("Pickup Debug: Object entered grab area: ", target.name)
 	# reject objects which don't support picking up
 	if not target.has_method('pick_up'):
+		print("Pickup Debug: Object rejected (no pick_up method): ", target.name)
 		return
 
 	# ignore objects already known

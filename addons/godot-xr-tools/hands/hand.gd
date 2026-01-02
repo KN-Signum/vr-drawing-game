@@ -157,6 +157,12 @@ func _physics_process(_delta: float) -> void:
 	if _controller:
 		var grip : float = _controller.get_float(grip_action)
 		var trigger : float = _controller.get_float(trigger_action)
+		
+		# If grip is 0, try godot/grip
+		if grip == 0.0:
+			grip = _controller.get_float("godot/" + grip_action)
+		if trigger == 0.0:
+			trigger = _controller.get_float("godot/" + trigger_action)
 
 		# Allow overriding of grip and trigger
 		if _force_grip >= 0.0: grip = _force_grip
