@@ -4,7 +4,7 @@ const PORT: int = 9001
 const BIND_IP: String = "0.0.0.0"   # listen on all interfaces
 const TARGET_W: int = 960
 const TARGET_H: int = 540
-const JPEG_QUALITY: int = 60  # Reduced from 70 to decrease frame size
+const JPEG_QUALITY: float = 0.60  # 0..1 (Godot 4). Use 0.60 ~= 60%
 const FPS: float = 10.0  # Reduced from 15 to give more time for buffer to clear
 
 var _tcp: TCPServer = TCPServer.new()
@@ -12,7 +12,19 @@ var _clients: Array[WebSocketPeer] = []
 var _accum: float = 0.0
 var _frame_skip_counter: int = 0
 
+var _spectator_viewport: SubViewport
+var _spectator_camera: Camera3D
+
 func _ready() -> void:
+	# Setup spectator viewport for VR streaming
+	_spectator_viewport = SubViewport.new()
+	_spectator_viewport.size = Vector2i(TARGET_W, TARGET_H)
+	_spectator_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	add_child(_spectator_viewport)
+
+	_spectator_camera = Camera3D.new()
+	_spectator_viewport.add_child(_spectator_camera)
+
 	var err: int = _tcp.listen(PORT, BIND_IP)
 	if err != OK:
 		push_error("TCP listen error: %s" % err)
@@ -31,6 +43,14 @@ func _print_local_ip() -> void:
 			print("  - ws://%s:%d (use this in your frontend app)" % [ip, PORT])
 
 func _process(delta: float) -> void:
+	# Sync spectator camera with main camera (VR headset)
+	var main_cam = get_viewport().get_camera_3d()
+	if main_cam:
+		_spectator_camera.global_transform = main_cam.global_transform
+		# Ensure we share the same world
+		if _spectator_viewport.world_3d != get_viewport().world_3d:
+			_spectator_viewport.world_3d = get_viewport().world_3d
+
 	# Accept new connections
 	while _tcp.is_connection_available():
 		var conn: StreamPeerTCP = _tcp.take_connection()
@@ -73,15 +93,22 @@ func _process(delta: float) -> void:
 func _broadcast_frame() -> void:
 	if _clients.is_empty():
 		return
-	var tex := get_viewport().get_texture()
+	
+	# Capture from spectator viewport instead of root viewport
+	var tex := _spectator_viewport.get_texture()
 	if tex == null:
 		return
 	var img: Image = tex.get_image()
+	
 	if img.is_compressed():
 		img.decompress()
 	img.convert(Image.FORMAT_RGB8)
-	img.resize(TARGET_W, TARGET_H, Image.INTERPOLATE_BILINEAR)
+	# No need to resize if viewport is already TARGET_W x TARGET_H
+	# img.resize(TARGET_W, TARGET_H, Image.INTERPOLATE_BILINEAR)
+	
 	var jpg: PackedByteArray = img.save_jpg_to_buffer(JPEG_QUALITY)
+	if jpg.is_empty():
+		return
 
 	# Send to clients, but skip if buffer is full
 	for i in range(_clients.size() - 1, -1, -1):

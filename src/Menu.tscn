@@ -1,11 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://bpj8h6k3xmnvq"]
+[gd_scene load_steps=11 format=3 uid="uid://bpj8h6k3xmnvq"]
 
+[ext_resource type="Script" uid="uid://cu0gk3m82y8qq" path="res://src/init_xr.gd" id="1_1w2tc"]
 [ext_resource type="Script" uid="uid://blba3pj0y10g0" path="res://src/MenuManager.gd" id="1_menu"]
 [ext_resource type="Script" uid="uid://cfmqy5uaffbaq" path="res://src/HTTPDiscoveryServer.gd" id="2_discovery"]
 [ext_resource type="FontFile" uid="uid://dw2fb5d1x5cdv" path="res://other/CherryBombOne-Regular.ttf" id="2_font"]
 [ext_resource type="Texture2D" uid="uid://dvxc863i7bjdl" path="res://other/skn_neuro.png" id="3_8t7h3"]
 [ext_resource type="Texture2D" uid="uid://bjadabogso8um" path="res://other/signum.png" id="3_signum"]
 [ext_resource type="Texture2D" uid="uid://8r1o4f2biy0" path="res://other/wca.png" id="4_wca"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_mgj0u"]
+viewport_path = NodePath("XROrigin3D/SubViewportContainer/SubViewport")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
 bg_color = Color(0.8, 0.65, 0.45, 1)
@@ -21,7 +25,28 @@ corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xj8gm"]
 
-[node name="Menu" type="Control"]
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_1w2tc")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -14.867899)
+texture = SubResource("ViewportTexture_mgj0u")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="XROrigin3D"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="XROrigin3D/SubViewportContainer"]
+size = Vector2i(1150, 650)
+
+[node name="Menu" type="Control" parent="XROrigin3D/SubViewportContainer/SubViewport"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,7 +55,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -39,7 +64,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.4, 0.6, 0.85, 1)
 
-[node name="IPAddressLabel" type="Label" parent="."]
+[node name="IPAddressLabel" type="Label" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -58,7 +83,7 @@ Detecting IP addresses..."
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -66,34 +91,34 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="PanelContainer" parent="CenterContainer"]
+[node name="Panel" type="PanelContainer" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu/CenterContainer"]
 custom_minimum_size = Vector2(800, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
-[node name="InnerPanel" type="PanelContainer" parent="CenterContainer/Panel"]
+[node name="InnerPanel" type="PanelContainer" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu/CenterContainer/Panel"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_xj8gm")
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/Panel/InnerPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu/CenterContainer/Panel/InnerPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 60
 theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 60
 theme_override_constants/margin_bottom = 40
 
-[node name="InfoScreen" type="VBoxContainer" parent="CenterContainer/Panel/InnerPanel/MarginContainer"]
+[node name="InfoScreen" type="VBoxContainer" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu/CenterContainer/Panel/InnerPanel/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen"]
+[node name="VBoxContainer" type="VBoxContainer" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu/CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 20
 
-[node name="InfoTitle" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer"]
+[node name="InfoTitle" type="Label" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu/CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.2, 0.15, 1)
 theme_override_fonts/font = ExtResource("2_font")
@@ -101,7 +126,7 @@ theme_override_font_sizes/font_size = 32
 text = "Informacja o badaniu"
 horizontal_alignment = 1
 
-[node name="InfoText" type="RichTextLabel" parent="CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer"]
+[node name="InfoText" type="RichTextLabel" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu/CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0.3, 0.2, 0.15, 1)
@@ -112,38 +137,38 @@ text = "[center]Witamy w środowisku terapeutycznym stworzonym w ramach projektu
 fit_content = true
 scroll_active = false
 
-[node name="InfoLogosContainer" type="HBoxContainer" parent="CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer"]
+[node name="InfoLogosContainer" type="HBoxContainer" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu/CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="InfoLogo1" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer/InfoLogosContainer"]
+[node name="InfoLogo1" type="TextureRect" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu/CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer/InfoLogosContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 texture = ExtResource("3_8t7h3")
 expand_mode = 3
 stretch_mode = 4
 
-[node name="InfoLogo2" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer/InfoLogosContainer"]
+[node name="InfoLogo2" type="TextureRect" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu/CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer/InfoLogosContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 texture = ExtResource("4_wca")
 expand_mode = 3
 stretch_mode = 4
 
-[node name="InfoLogo3" type="TextureRect" parent="CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer/InfoLogosContainer"]
+[node name="InfoLogo3" type="TextureRect" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu/CenterContainer/Panel/InnerPanel/MarginContainer/InfoScreen/VBoxContainer/InfoLogosContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 texture = ExtResource("3_signum")
 expand_mode = 3
 stretch_mode = 4
 
-[node name="MenuScreen" type="VBoxContainer" parent="CenterContainer/Panel/InnerPanel/MarginContainer"]
+[node name="MenuScreen" type="VBoxContainer" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu/CenterContainer/Panel/InnerPanel/MarginContainer"]
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="TitleLabel" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen"]
+[node name="TitleLabel" type="Label" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu/CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.2, 0.15, 1)
 theme_override_fonts/font = ExtResource("2_font")
@@ -151,16 +176,16 @@ theme_override_font_sizes/font_size = 36
 text = "NEXT"
 horizontal_alignment = 1
 
-[node name="Spacer" type="Control" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen"]
+[node name="Spacer" type="Control" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu/CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
-[node name="GamesContainer" type="VBoxContainer" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen"]
+[node name="GamesContainer" type="VBoxContainer" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu/CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen"]
 layout_mode = 2
 theme_override_constants/separation = 15
 alignment = 1
 
-[node name="Game1" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen/GamesContainer"]
+[node name="Game1" type="Label" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu/CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen/GamesContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.1, 0.05, 1)
 theme_override_fonts/font = ExtResource("2_font")
@@ -168,7 +193,7 @@ theme_override_font_sizes/font_size = 22
 text = "► Drawing Game ◄"
 horizontal_alignment = 1
 
-[node name="Game2" type="Label" parent="CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen/GamesContainer"]
+[node name="Game2" type="Label" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu/CenterContainer/Panel/InnerPanel/MarginContainer/MenuScreen/GamesContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.2, 0.15, 1)
 theme_override_fonts/font = ExtResource("2_font")
@@ -176,5 +201,5 @@ theme_override_font_sizes/font_size = 22
 text = "Spacer w lesie"
 horizontal_alignment = 1
 
-[node name="HTTPDiscoveryServer" type="Node" parent="."]
+[node name="HTTPDiscoveryServer" type="Node" parent="XROrigin3D/SubViewportContainer/SubViewport/Menu"]
 script = ExtResource("2_discovery")
